@@ -3,5 +3,6 @@
 	public interface IRepositoryManager
 	{
 		IHostelTypeRepository HostelTypeRepository { get; }
+		IRoleRepository RoleRepository { get; }
 	}
 }

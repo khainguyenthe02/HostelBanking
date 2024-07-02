@@ -2,6 +2,6 @@
 {
 	public class HostelType : Base
 	{
-		public string TypeName { get; set; }
+		public string HostelTypeName { get; set; }
 	}
 }
