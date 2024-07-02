@@ -14,15 +14,14 @@
     <PackageReference Include="Microsoft.SqlServer.Server" Version="1.0.0" />
     <PackageReference Include="Serilog" Version="4.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\Const\" />
     <Folder Include="Entities\Enum\" />
     <Folder Include="Entities\Models\Account\" />
     <Folder Include="Entities\Models\Comment\" />
     <Folder Include="Entities\Models\Favorite\" />
-    <Folder Include="Entities\Models\Role\" />
     <Folder Include="Entities\Models\PayHistory\" />
     <Folder Include="Entities\Models\Report\" />
     <Folder Include="Entities\Models\Post\" />

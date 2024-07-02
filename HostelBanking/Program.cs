@@ -1,9 +1,14 @@
-using HostelBanking.Repositories.Interfaces;
+﻿using HostelBanking.Repositories.Interfaces;
 using HostelBanking.Repositories;
 using HostelBanking.Services.Interfaces;
 using HostelBanking.Services;
+using HostelBanking.SqlServerDbHelper.Interfaces;
+using HostelBanking.SqlServerDbHelper;
+using Dapper;
 
 var builder = WebApplication.CreateBuilder(args);
+// Đọc cấu hình từ appsettings.json
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
 // Add services to the container.
 
@@ -12,9 +17,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IServiceManager, ServiceManager>();
-builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
+builder.Services.AddSingleton<IServiceManager, ServiceManager>();
+builder.Services.AddSingleton<IRepositoryManager, RepositoryManager>();
 
+DefaultTypeMap.MatchNamesWithUnderscores = true;
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
