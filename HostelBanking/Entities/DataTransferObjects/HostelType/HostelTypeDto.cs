@@ -4,6 +4,7 @@
     {
         public int? Id { get; set; }
         public string? HostelTypeName { get; set; }
-        public bool? DeleteFlag { get; set; }
+		public string? Information { get; set; }
+		public bool? DeleteFlag { get; set; }
     }
 }

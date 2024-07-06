@@ -4,5 +4,6 @@
 	{
 		IHostelTypeService HostelTypeService { get; }
 		IRoleService RoleService { get; }
+		IUserService UserService { get; }
 	}
 }

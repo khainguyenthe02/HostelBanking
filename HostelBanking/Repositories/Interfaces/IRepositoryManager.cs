@@ -4,5 +4,7 @@
 	{
 		IHostelTypeRepository HostelTypeRepository { get; }
 		IRoleRepository RoleRepository { get; }
+		IUserRepository UserRepository { get; }
+		IPostRepository PostRepository { get; }
 	}
 }

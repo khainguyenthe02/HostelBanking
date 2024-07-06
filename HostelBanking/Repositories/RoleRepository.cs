@@ -19,8 +19,8 @@ namespace HostelBanking.Repositories
 		{
 			var result =
 			await _dbService.EditData(
-			  "INSERT INTO roles (role_name, delete_flag) " +
-				"VALUES (@RoleName, @DeleteFlag)",
+			  "INSERT INTO roles (role_name, information, delete_flag) " +
+				"VALUES (@RoleName, @Information, @DeleteFlag)",
 			  roles);
 			if (result > 0)
 			{
@@ -64,6 +64,10 @@ namespace HostelBanking.Repositories
 			{
 				whereSql += " AND role_name = @RoleName";
 			}
+			if (search.IdLst != null && search.IdLst.Any())
+			{
+				whereSql += " and id IN @IdLst";
+			}
 
 			var roleLst = await _dbService.GetAll<Roles>(selectSql + whereSql, search);
 
@@ -76,6 +80,10 @@ namespace HostelBanking.Repositories
 			if (roles.RoleName != null)
 			{
 				updateSql += " role_name=@RoleName, ";
+			}
+			if (roles.Information != null)
+			{
+				updateSql += " information=@Information, ";
 			}
 			if (roles.DeleteFlag != null)
 			{
