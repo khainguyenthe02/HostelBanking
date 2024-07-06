@@ -20,8 +20,8 @@ namespace HostelBanking.Repositories
 		{
 			var result =
 			await _dbService.EditData(
-			  "INSERT INTO hostel_type (hostel_type_name, delete_flag) " +
-				"VALUES (@HostelTypeName, @DeleteFlag)",
+			  "INSERT INTO hostel_type (hostel_type_name, information, delete_flag) " +
+				"VALUES (@HostelTypeName, @Information,  @DeleteFlag)",
 			  hostelType);
 			if (result > 0)
 			{
@@ -72,10 +72,14 @@ namespace HostelBanking.Repositories
 
 		public async Task<bool> Update(HostelType hostelType)
 		{
-			var updateSql = " UPDATE dbo.hostel_type SET  ";
+			var updateSql = " UPDATE hostel_type SET  ";
 			if (hostelType.HostelTypeName != null)
 			{
 				updateSql += " hostel_type_name=@HostelTypeName, ";
+			}
+			if(hostelType.Information != null)
+			{
+				updateSql += " information=@Information, ";
 			}
 			if (hostelType.DeleteFlag != null)
 			{

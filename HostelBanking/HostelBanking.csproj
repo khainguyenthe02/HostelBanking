@@ -9,6 +9,8 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="FirebaseAuthentication.net" Version="4.1.0" />
+    <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
     <PackageReference Include="Mapster" Version="6.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />
     <PackageReference Include="Microsoft.SqlServer.Server" Version="1.0.0" />
@@ -18,13 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\Enum\" />
-    <Folder Include="Entities\Models\Account\" />
     <Folder Include="Entities\Models\Comment\" />
     <Folder Include="Entities\Models\Favorite\" />
     <Folder Include="Entities\Models\PayHistory\" />
     <Folder Include="Entities\Models\Report\" />
-    <Folder Include="Entities\Models\Post\" />
   </ItemGroup>
 
   <ItemGroup>
