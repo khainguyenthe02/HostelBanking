@@ -64,7 +64,7 @@ namespace HostelBanking.Controllers
 				{
 					return BadRequest(MessageError.InvalidPasswordError);
 				}
-				if (Validate.ValidatePasword(createUserDto.Password))
+				if (!Validate.ValidatePasword(createUserDto.Password))
 				{
 					return BadRequest(MessageError.TypingPasswordError);
 				}
@@ -91,7 +91,7 @@ namespace HostelBanking.Controllers
 			}
 
 			// Kiểm tra trạng thái tài khoản
-			if (user.StatusAccount == (int)AccountStatus.INACTIVE)
+			if (user.StatusAccount == (int)AccountStatus.BLOCK)
 			{
 				return BadRequest(MessageError.AccountInActive); // Tài khoản không hoạt động
 			}
@@ -112,7 +112,32 @@ namespace HostelBanking.Controllers
 			}
 			// Đăng nhập thành công
 			await _serviceManager.UserService.UpdateUser(user);
-			return Ok("Đăng nhập thành công");
+			return Ok(user);
+		}
+		[HttpPost("active")]
+		public async Task<IActionResult> ActiveAccount([FromBody] EmailAcountDto emailAcount, CancellationToken cancellationToken)
+		{
+			emailAcount.Email = emailAcount.Email.Replace(" ", "");
+
+
+			// Kiểm tra xem người dùng có tồn tại không
+			var user = await _serviceManager.UserService.GetByEmail(emailAcount.Email);
+			if (user == null)
+			{
+				return BadRequest(MessageError.EmailNotExist); // Email không tồn tại
+			}
+
+			// Kiểm tra trạng thái tài khoản
+			if (user.StatusAccount == (int)AccountStatus.INACTIVE)
+			{
+				user.StatusAccount = (int)AccountStatus.ACTIVE;
+				// Đăng nhập thành công
+				await _serviceManager.UserService.UpdateUser(user);
+				return Ok("Kích hoạt thành công");
+			}
+			return StatusCode(500, " Đã xảy ra lỗi");
+		
+
 		}
 		[HttpDelete]
 		public async Task<IActionResult> DeleteAsync(int id)
@@ -176,7 +201,7 @@ namespace HostelBanking.Controllers
 			return BadRequest(MessageError.ErrorUpdate);
 		}
 
-		[HttpPost("SearchUser")]
+		[HttpPost("search-user")]
 		public async Task<IActionResult> SearchData([FromBody] UserSearchDto searchUserDto, CancellationToken cancellationToken)
 		{
 			List<UserDto> userDto;

@@ -41,14 +41,14 @@ namespace HostelBanking.Repositories
 
 		public async Task<List<Post>> GetAll()
 		{
-			var userList = await _dbService.GetAll<Post>("SELECT * FROM post", new { });
-			return userList;
+			var postList = await _dbService.GetAll<Post>("SELECT * FROM post", new { });
+			return postList;
 		}
 
 		public async Task<Post> GetById(int id)
 		{
-			var user = await _dbService.GetAsync<Post>("SELECT * FROM post WHERE id = @Id", new { Id = id });
-			return user;
+			var post = await _dbService.GetAsync<Post>("SELECT * FROM post WHERE id = @Id", new { Id = id });
+			return post;
 		}
 
 		public async Task<List<Post>> Search(PostSearchDto search)

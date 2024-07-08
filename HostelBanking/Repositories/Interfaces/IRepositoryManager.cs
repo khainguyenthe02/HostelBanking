@@ -6,5 +6,6 @@
 		IRoleRepository RoleRepository { get; }
 		IUserRepository UserRepository { get; }
 		IPostRepository PostRepository { get; }
+		IPostImageRepository PostImageRepository { get; }
 	}
 }

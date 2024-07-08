@@ -5,14 +5,14 @@ namespace HostelBanking.Utils
 {
 	public class Validate
 	{
-		// Có tối thiểu 8 kí tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt
+		// Có tối thiểu 6 kí tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt
 		public static bool ValidatePasword(string password)
 		{
 
 			var hasNumber = new Regex(@"[0-9]+");
 			var hasUpperChar = new Regex(@"[A-Z]+");
 			var hasLowerChar = new Regex(@"[a-z]+");
-			var hasMinimum8Chars = new Regex(@".{8,}");
+			var hasMinimum8Chars = new Regex(@".{6,}");
 
 			var isValidated = hasNumber.IsMatch(password) && hasUpperChar.IsMatch(password) && hasMinimum8Chars.IsMatch(password) && hasSpecialChar(password) && hasLowerChar.IsMatch(password);
 

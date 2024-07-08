@@ -4,5 +4,6 @@
 	{
 		INACTIVE,
 		ACTIVE,
+		BLOCK
 	}
 }
