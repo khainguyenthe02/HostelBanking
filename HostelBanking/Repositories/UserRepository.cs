@@ -72,7 +72,7 @@ namespace HostelBanking.Repositories
 		public async Task<List<User>> Search(UserSearchDto search)
 		{
 			var selectSql = "SELECT * FROM account ";
-			var whereSql = " WHERE delete_flag = 0";
+			var whereSql = " WHERE delete_flag  = 0 ";
 
 			if (search.Id != null)
 			{

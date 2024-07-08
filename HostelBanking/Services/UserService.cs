@@ -39,7 +39,7 @@ namespace HostelBanking.Services
 			}
 			if (user.StatusAccount == null)
 			{
-				user.StatusAccount = (int)AccountStatus.ACTIVE;
+				user.StatusAccount = (int)AccountStatus.INACTIVE;
 			}
 			var result = await _repositoryManager.UserRepository.Create(user);
 			if (result)
@@ -119,9 +119,9 @@ namespace HostelBanking.Services
 
 		public async Task<bool> Update(UserUpdateDto userForUpdateDto)
 		{
-			UserSearchDto search = new();
-			search.Id = userForUpdateDto.Id;
-			var existingUser = (await _repositoryManager.UserRepository.Search(search))?.FirstOrDefault();
+			//UserSearchDto search = new();
+			var userId = (int) userForUpdateDto.Id;
+			var existingUser = (await _repositoryManager.UserRepository.GetById(userId));
 			if (existingUser == null) return false;
 			var user = userForUpdateDto.Adapt<User>();
 			// Không update pass
