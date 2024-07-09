@@ -1,6 +1,9 @@
 ﻿using HostelBanking.Entities.DataTransferObjects.Post;
+using HostelBanking.Entities.Models.Post;
+using HostelBanking.Entities.Models.PostImages;
 using HostelBanking.Repositories.Interfaces;
 using HostelBanking.Services.Interfaces;
+using Mapster;
 
 namespace HostelBanking.Services
 {
@@ -12,10 +15,12 @@ namespace HostelBanking.Services
 			this._repositoryManager = repositoryManager;
 		}
 
-		public Task<bool> Create(PostCreateDto post)
+		public async Task<bool> Create(PostCreateDto post)
 		{
-			throw new NotImplementedException();
-		}
+            var postInfo = post.Adapt<Post>();
+            var result = await _repositoryManager.PostRepository.Create(postInfo);
+            return result;
+        }
 
 		public Task<bool> Delete(int id)
 		{

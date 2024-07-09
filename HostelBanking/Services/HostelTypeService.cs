@@ -45,19 +45,19 @@ namespace HostelBanking.Services
 		public async Task<List<HostelTypeDto>> GetAll()
 		{
 			var result = await _repositoryManager.HostelTypeRepository.GetAll();
-			return result?.Adapt<List<HostelTypeDto>>();
+            return result.Adapt<List<HostelTypeDto>>();
 		}
 
 		public async Task<HostelTypeDto> GetById(int id)
 		{
 			var result = await _repositoryManager.HostelTypeRepository.GetById(id);
-			return result?.Adapt<HostelTypeDto>();
+			return result.Adapt<HostelTypeDto>();
 		}
 
 		public async Task<List<HostelTypeDto>> Search(HostelTypeSearchDto search)
 		{
 			var result = await _repositoryManager.HostelTypeRepository.Search(search);
-			return result?.Adapt<List<HostelTypeDto>>();
+			return result.Adapt<List<HostelTypeDto>>();
 			
 		}
 

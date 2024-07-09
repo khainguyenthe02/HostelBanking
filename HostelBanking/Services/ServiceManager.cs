@@ -3,12 +3,13 @@ using HostelBanking.Services.Interfaces;
 
 namespace HostelBanking.Services
 {
-	public class ServiceManager : IServiceManager
+    public class ServiceManager : IServiceManager
 	{
 		private readonly Lazy<IHostelTypeService> lazyHostelTypeService;
 		private readonly Lazy<IRoleService> lazyRoleService;
 		private readonly Lazy<IUserService> lazyUserService;
 		private readonly Lazy<IPostService> lazyPostService;
+		private readonly Lazy<IPostImageService> lazyPostImageService;
 		public ServiceManager (IRepositoryManager repositoryManager, IConfiguration configuration,
 								IWebHostEnvironment webHostEnvironment)
 		{
@@ -16,8 +17,9 @@ namespace HostelBanking.Services
 			lazyRoleService = new Lazy<IRoleService>(() => new RoleService(repositoryManager));
 			lazyUserService = new Lazy<IUserService>(() => new UserService(repositoryManager));
 			lazyPostService = new Lazy<IPostService>(() => new PostService(repositoryManager));
+			lazyPostImageService = new Lazy<IPostImageService>(() => new PostImageService(repositoryManager));
 
-		}
+        }
 		public IHostelTypeService HostelTypeService => lazyHostelTypeService.Value;
 
 		public IRoleService RoleService => lazyRoleService.Value;
@@ -25,5 +27,7 @@ namespace HostelBanking.Services
 		public IUserService UserService => lazyUserService.Value;
 
 		public IPostService PostService => lazyPostService.Value;
-	}
+
+        public IPostImageService PostImageService => lazyPostImageService.Value;
+    }
 }

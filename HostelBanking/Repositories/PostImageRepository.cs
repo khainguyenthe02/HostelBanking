@@ -20,8 +20,8 @@ namespace HostelBanking.Repositories
 		public async Task<bool> Create(PostImage postImage)
 		{
 			var result = await _dbService.EditData(
-			"INSERT INTO post_image (post_id, image_name, image_url, delete_flag) " +
-			"VALUES (@PostId, @ImageName, @ImageUrl, @DeleteFlag)",
+			"INSERT INTO post_image (post_id, image_url, delete_flag) " +
+			"VALUES (@PostId, @ImageUrl, @DeleteFlag)",
 			postImage);
 			if (result > 0)
 			{
@@ -63,10 +63,6 @@ namespace HostelBanking.Repositories
 			{
 				whereSql += " AND post_id = @PostId";
 			}
-			if(search.ImageName  != null)
-			{
-				whereSql += " AND image_name = @ImageName ";
-			}
 			if(search.ImageUrl != null)
 			{
 				whereSql += " AND image_url = @ImageUrl";
@@ -78,6 +74,10 @@ namespace HostelBanking.Repositories
 		public async Task<bool> Update(PostImage postImage)
 		{
 			var updateSql = " UPDATE post SET  ";
+			if (postImage.ImageUrl != null)
+			{
+				updateSql += " image_url = @ImageUrl, ";
+			}
 			if (postImage.DeleteFlag != null)
 			{
 				updateSql += " delete_flag=@DeleteFlag ";

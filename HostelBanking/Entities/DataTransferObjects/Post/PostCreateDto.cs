@@ -1,4 +1,6 @@
-﻿namespace HostelBanking.Entities.DataTransferObjects.Post
+﻿using HostelBanking.Entities.DataTransferObjects.PostImage;
+
+namespace HostelBanking.Entities.DataTransferObjects.Post
 {
 	public class PostCreateDto
 	{
@@ -16,5 +18,6 @@
 		public int PaymentType { get; set; }
 		public int HostelTypeId { get; set; }
 		public int AccountId { get; set; }
-	}
+        public List<PostImageCreateDto> ImageList { get; set; }
+    }
 }

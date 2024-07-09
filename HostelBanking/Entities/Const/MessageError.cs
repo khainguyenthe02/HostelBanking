@@ -19,5 +19,8 @@
 		public const string EmailExist = "Email đã tồn tại trên hệ thống";
 		public const string EmailNotExist = "Email không tồn tại trên hệ thống";
 
-	}
+        public const string PostImageError = "Hình ảnh không khả dụng";
+
+
+    }
 }
