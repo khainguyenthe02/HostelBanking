@@ -21,28 +21,12 @@ namespace HostelBanking.Controllers
         }
         [HttpPost("create")]
         [Authorize]
-        public async Task<IActionResult> CreateAsync([FromBody] PostCreateDto post, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateAsync([FromBody] PostCreateDto postDto, CancellationToken cancellationToken)
         {
 			var created = await _serviceManager.PostService.Create(postDto);
 			if (created!= null)
 			{
-				var latestPost = await _serviceManager.PostService.GetLatestPost();
-				if (latestPost != null)
-				{
-					var imageList = postDto.ImageList.Select(image =>
-					{
-						image.PostId = latestPost.Id;
-						return image;
-					}).ToList();
-
-					var createImageTasks = imageList.Select(image => _serviceManager.PostImageService.Create(image)).ToList();
-					var imageResults = await Task.WhenAll(createImageTasks);
-
-					if (imageResults.All(result => result))
-					{
-						return Ok();
-					}
-				}
+			return Ok();	
 			}
 			return BadRequest(MessageError.ErrorCreate);
 		}
