@@ -10,7 +10,7 @@ namespace HostelBanking.Repositories.Interfaces
 		Task<bool> Create(Roles roles);
 		Task<List<Roles>> GetAll();
 		Task<bool> Update(Roles roles);
-		Task<bool> Delete(string id);
+		Task<bool> Delete(int id);
 		Task<Roles> GetById(int id);
 		Task<List<Roles>> Search(RoleSearchDto search);
 	}

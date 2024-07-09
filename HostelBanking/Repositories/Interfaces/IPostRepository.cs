@@ -10,7 +10,7 @@ namespace HostelBanking.Repositories.Interfaces
 		Task<bool> Create(Post post);
 		Task<List<Post>> GetAll();
 		Task<bool> Update(Post post);
-		Task<bool> Delete(string id);
+		Task<bool> Delete(int id);
 		Task<Post> GetById(int id);
 		Task<List<Post>> Search(PostSearchDto search);
 	}

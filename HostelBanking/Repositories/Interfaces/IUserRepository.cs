@@ -10,7 +10,7 @@ namespace HostelBanking.Repositories.Interfaces
 		Task<bool> Create(User user);
 		Task<List<User>> GetAll();
 		Task<bool> Update(User user);
-		Task<bool> Delete(string id);
+		Task<bool> Delete(int id);
 		Task<User> GetById(int id);
 		Task<List<User>> Search(UserSearchDto search);
 		Task<User> Login(string email, string password);

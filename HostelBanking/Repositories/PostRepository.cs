@@ -33,7 +33,7 @@ namespace HostelBanking.Repositories
 			}
 		}
 
-		public async Task<bool> Delete(string id)
+		public async Task<bool> Delete(int id)
 		{
 			var result = await _dbService.EditData("DELETE FROM post WHERE id = @Id", new { Id = id });
 			return true;
