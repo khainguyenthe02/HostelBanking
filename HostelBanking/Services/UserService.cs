@@ -56,7 +56,7 @@ namespace HostelBanking.Services
 			{
 				Id = id,
 			};
-			var userInfo = await _repositoryManager.UserRepository.Search(search);
+			var userInfo = await _repositoryManager.UserRepository.SearchAdmin(search);
 			if (userInfo != null)
 			{
 				var userUpdate = new User
@@ -80,7 +80,7 @@ namespace HostelBanking.Services
 		{
 			UserSearchDto search = new();
 			search.Email = email;
-			var user = (await _repositoryManager.UserRepository.Search(search))?.FirstOrDefault();
+			var user = (await _repositoryManager.UserRepository.SearchAdmin(search))?.FirstOrDefault();
 
 			var userDto = user?.Adapt<UserDto>();
 			if (userDto != null)
@@ -112,7 +112,7 @@ namespace HostelBanking.Services
 
 		public async Task<List<UserDto>> Search(UserSearchDto search)
 		{
-			var result = await _repositoryManager.UserRepository.Search(search);
+			var result = await _repositoryManager.UserRepository.SearchAdmin(search);
 			var resultDto = result.Adapt<List<UserDto>>();
 			return await FilterData(resultDto);
 		}
@@ -193,5 +193,12 @@ namespace HostelBanking.Services
 		{
 			throw new NotImplementedException();
 		}
-	}
+
+        public async Task<List<UserDto>> SearchByAdmin(UserSearchDto searchbyadmin)
+        {
+            var result = await _repositoryManager.UserRepository.SearchAdmin(searchbyadmin);
+            var resultDto = result.Adapt<List<UserDto>>();
+            return await FilterData(resultDto);
+        }
+    }
 }

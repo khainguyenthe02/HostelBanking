@@ -13,7 +13,8 @@ namespace HostelBanking.Services.Interfaces
 		Task<bool> Update(UserUpdateDto user);
 		Task<bool> UpdateUser(UserDto userDto);
 		Task<List<UserDto>> Search(UserSearchDto search);
-		Task<User> Login(string email, string password);
+		Task<List<UserDto>> SearchByAdmin(UserSearchDto searchbyadmin);
+        Task<User> Login(string email, string password);
 		Task<UserDto> Login(AuthRequestDto loginRequest);
 		Task<UserDto> GetByEmail(string email);
 		Task<bool> UpdatePassword(int Id, string newPassword);

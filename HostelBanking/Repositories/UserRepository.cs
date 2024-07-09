@@ -99,7 +99,38 @@ namespace HostelBanking.Repositories
 			return userList;
 		}
 
-		public async Task<bool> Update(User user)
+        public async Task<List<User>> SearchAdmin(UserSearchDto searchbyadmin)
+        {
+            var selectSql = "SELECT * FROM account ";
+            var whereSql = " WHERE 1=1 ";
+
+            if (searchbyadmin.Id != null)
+            {
+                whereSql += " AND id = @Id";
+            }
+            if (!string.IsNullOrEmpty(searchbyadmin.Email))
+            {
+                whereSql += " AND email LIKE @Email";
+            }
+            if (!string.IsNullOrEmpty(searchbyadmin.FullName))
+            {
+                whereSql += " AND full_name LIKE @FullName";
+            }
+            if (searchbyadmin.RoleId != null)
+            {
+                whereSql += " AND role_id = @RoleId";
+            }
+            if (searchbyadmin.StatusAccount != null)
+            {
+                whereSql += " AND status_account = @StatusAccount";
+            }
+
+            var userList = await _dbService.GetAll<User>(selectSql + whereSql, searchbyadmin);
+            return userList;
+        }
+
+
+        public async Task<bool> Update(User user)
 		{
 			var updateSql = " UPDATE account SET  ";
 

@@ -12,7 +12,7 @@ namespace HostelBanking.Repositories.Interfaces
 		Task<bool> Update(User user);
 		Task<bool> Delete(int id);
 		Task<User> GetById(int id);
-		Task<List<User>> Search(UserSearchDto search);
+		Task<List<User>> SearchAdmin(UserSearchDto search);
 		Task<User> Login(string email, string password);
 	}
 }

@@ -242,5 +242,16 @@ namespace HostelBanking.Controllers
 			return Ok(userDto);
 
 		}
-	}
+
+        [HttpPost("search-user-by-admin")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> SearchDataByAdmin([FromBody] UserSearchDto searchUserDto, CancellationToken cancellationToken)
+        {
+            List<UserDto> userDto;
+            userDto = await _serviceManager.UserService.SearchByAdmin(searchUserDto);
+            if (userDto == null) return Ok(new List<UserDto>());
+            return Ok(userDto);
+
+        }
+    }
 }
