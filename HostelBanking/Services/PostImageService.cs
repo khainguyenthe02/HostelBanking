@@ -51,10 +51,10 @@ namespace HostelBanking.Services
             var postImageInfo = await _repositoryManager.PostImageRepository.Search(search);
             if (postImageInfo != null)
             {
-                var postImageUpdate = new HostelType();
+                var postImageUpdate = new PostImage();
                 postImageUpdate.Id = id;
                 postImageUpdate.DeleteFlag = true;
-                var result = await _repositoryManager.HostelTypeRepository.Update(postImageUpdate);
+                var result = await _repositoryManager.PostImageRepository.Update(postImageUpdate);
                 return true;
             }
             return false;
@@ -80,8 +80,8 @@ namespace HostelBanking.Services
 
         public async Task<bool> Update(PostImageUpdateDto postImage)
         {
-            var poaatImageInfo = postImage.Adapt<PostImage>();
-            var result = await _repositoryManager.PostImageRepository.Update(poaatImageInfo);
+            var postImageInfo = postImage.Adapt<PostImage>();
+            var result = await _repositoryManager.PostImageRepository.Update(postImageInfo);
             return result;
         }
     }
