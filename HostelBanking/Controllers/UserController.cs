@@ -10,7 +10,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using System.Security.Claims;
+using System.Text;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace HostelBanking.Controllers
@@ -20,10 +24,12 @@ namespace HostelBanking.Controllers
 	public class UserController : ControllerBase
 	{
 		private readonly IServiceManager _serviceManager;
-		public UserController(IServiceManager serviceManager)
+        private readonly IConfiguration _config;
+        public UserController(IServiceManager serviceManager, IConfiguration configuration)
 		{
 			this._serviceManager = serviceManager;
-		}
+            _config = configuration;
+        }
 		private string currentEmail => HttpContext.Items["Email"]?.ToString();
 		[HttpGet("get-user-by-id/{Id}")]
 		public async Task<IActionResult> GetUserById(int Id)
@@ -112,7 +118,29 @@ namespace HostelBanking.Controllers
 			}
 			// Đăng nhập thành công
 			await _serviceManager.UserService.UpdateUser(user);
-			return Ok(user);
+            var claims = new[]
+               {
+                new Claim("fullName",user.FullName),
+                new Claim("email",user.Email),
+                new Claim("phoneNumber",user.PhoneNumber),
+                new Claim(ClaimTypes.Role,user.RoleName),
+            };
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(_config["Tokens:Issuer"],
+                _config["Tokens:Issuer"],
+                claims,
+                expires: DateTime.Now.AddHours(30),
+                signingCredentials: creds);
+
+            var resuil = new
+            {
+                token = new JwtSecurityTokenHandler().WriteToken(token),
+				infor=user
+            };
+
+            return Ok(resuil);
 		}
 		[HttpPost("active")]
 		public async Task<IActionResult> ActiveAccount([FromBody] EmailAcountDto emailAcount, CancellationToken cancellationToken)
@@ -152,7 +180,8 @@ namespace HostelBanking.Controllers
 			return BadRequest("Người dùng không tồn tại");
 		}
 		[HttpPost("update-password")]
-		public async Task<IActionResult> UserUpdatePassword([FromBody] UpdatePasswordDto userUpdatePassword, CancellationToken cancellationToken)
+        [Authorize]
+        public async Task<IActionResult> UserUpdatePassword([FromBody] UpdatePasswordDto userUpdatePassword, CancellationToken cancellationToken)
 		{
 
 			if (!string.IsNullOrEmpty(userUpdatePassword.ReNewPassword))
@@ -189,7 +218,8 @@ namespace HostelBanking.Controllers
 				return BadRequest(MessageError.InvalidRePasswordError);
 		}
 		[HttpPut("update-user")]
-		public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDto updateUserDto, CancellationToken cancellationToken)
+        [Authorize]
+        public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDto updateUserDto, CancellationToken cancellationToken)
 		{
 			// Kiểm tra user có trùng hay không
 			var userDto = await _serviceManager.UserService.GetById((int)updateUserDto.Id);
@@ -201,8 +231,10 @@ namespace HostelBanking.Controllers
 			return BadRequest(MessageError.ErrorUpdate);
 		}
 
-		[HttpPost("search-user")]
-		public async Task<IActionResult> SearchData([FromBody] UserSearchDto searchUserDto, CancellationToken cancellationToken)
+        
+        [HttpPost("search-user")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> SearchData([FromBody] UserSearchDto searchUserDto, CancellationToken cancellationToken)
 		{
 			List<UserDto> userDto;
 			userDto = await _serviceManager.UserService.Search(searchUserDto);

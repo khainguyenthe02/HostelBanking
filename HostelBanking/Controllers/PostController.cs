@@ -4,6 +4,7 @@ using HostelBanking.Entities.DataTransferObjects.PostImage;
 using HostelBanking.Entities.Models.Post;
 using HostelBanking.Services.Interfaces;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,8 @@ namespace HostelBanking.Controllers
             this._serviceManager = serviceManager;
         }
         [HttpPost("create")]
-        public async Task<IActionResult> CreateAsync([FromBody] PostCreateDto postDto, CancellationToken cancellationToken)
+        [Authorize]
+        public async Task<IActionResult> CreateAsync([FromBody] PostCreateDto post, CancellationToken cancellationToken)
         {
 			var created = await _serviceManager.PostService.Create(postDto);
 			if (created!= null)
