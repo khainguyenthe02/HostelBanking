@@ -7,8 +7,9 @@ namespace HostelBanking.Repositories.Interfaces
 {
 	public interface IPostRepository
 	{
-		Task<bool> Create(Post post);
+		Task<int> Create(Post post);
 		Task<List<Post>> GetAll();
+		Task<Post> GetLatestPost();
 		Task<bool> Update(Post post);
 		Task<bool> Delete(int id);
 		Task<Post> GetById(int id);

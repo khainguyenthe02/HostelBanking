@@ -4,6 +4,7 @@ using HostelBanking.Entities.Models.PostImages;
 using HostelBanking.Repositories.Interfaces;
 using HostelBanking.Services.Interfaces;
 using Mapster;
+using Microsoft.EntityFrameworkCore;
 
 namespace HostelBanking.Services
 {
@@ -15,11 +16,11 @@ namespace HostelBanking.Services
 			this._repositoryManager = repositoryManager;
 		}
 
-		public async Task<bool> Create(PostCreateDto post)
+		public async Task<Post> Create(PostCreateDto post)
 		{
             var postInfo = post.Adapt<Post>();
             var result = await _repositoryManager.PostRepository.Create(postInfo);
-            return result;
+            return postInfo;
         }
 
 		public Task<bool> Delete(int id)
@@ -35,6 +36,11 @@ namespace HostelBanking.Services
 		public Task<PostDto> GetById(int id)
 		{
 			throw new NotImplementedException();
+		}
+
+		public async Task<Post> GetLatestPost()
+		{
+			return await _repositoryManager.PostRepository.GetLatestPost();
 		}
 
 		public Task<List<PostDto>> Search(PostSearchDto search)
