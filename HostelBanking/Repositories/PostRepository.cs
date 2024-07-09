@@ -15,7 +15,7 @@ namespace HostelBanking.Repositories
 			_dbService = new DbService(configuration);
 		}
 
-		public async Task<bool> Create(Post post)
+		public async Task<int> Create(Post post)
 		{
 			var result = await _dbService.EditData(
 			"INSERT INTO post (hostel_type_id, account_id, title, price, acreage, dictrict, ward, description_post," +
@@ -25,11 +25,11 @@ namespace HostelBanking.Repositories
 			post);
 			if (result > 0)
 			{
-				return true;
+				return post.Id;
 			}
 			else
 			{
-				return false;
+				return -1;
 			}
 		}
 
@@ -48,6 +48,13 @@ namespace HostelBanking.Repositories
 		public async Task<Post> GetById(int id)
 		{
 			var post = await _dbService.GetAsync<Post>("SELECT * FROM post WHERE id = @Id", new { Id = id });
+			return post;
+		}
+
+		public async Task<Post> GetLatestPost()
+		{
+			var sql = "SELECT TOP 1 * FROM post ORDER BY id DESC"; // Assuming 'id' is the auto-increment column
+			var post = await _dbService.GetAsync<Post>(sql, new { });
 			return post;
 		}
 

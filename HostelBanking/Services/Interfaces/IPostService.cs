@@ -1,12 +1,14 @@
 ﻿using HostelBanking.Entities.DataTransferObjects.Post;
 using HostelBanking.Entities.DataTransferObjects.Roles;
+using HostelBanking.Entities.Models.Post;
 
 namespace HostelBanking.Services.Interfaces
 {
 	public interface IPostService
 	{
-		Task<bool> Create(PostCreateDto post);
+		Task<Post> Create(PostCreateDto post);
 		Task<List<PostDto>> GetAll();
+		Task<Post> GetLatestPost();
 		Task<bool> Delete(int id);
 		Task<PostDto> GetById(int id);
 		Task<bool> Update(PostUpdateDto post);
