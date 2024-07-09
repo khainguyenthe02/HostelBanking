@@ -2,6 +2,7 @@
 using HostelBanking.Entities.DataTransferObjects.HostelType;
 using HostelBanking.Entities.DataTransferObjects.PostImage;
 using HostelBanking.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,7 @@ namespace HostelBanking.Controllers
             this._serviceManager = serviceManager;
         }
         [HttpGet("id={id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
         {
             PostImageSearchDto search = new();
@@ -29,6 +31,7 @@ namespace HostelBanking.Controllers
             return NoContent();
         }
         [HttpPost("create")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateAsync([FromBody] PostImageCreateDto postImage, CancellationToken cancellationToken)
         {
             var result = await _serviceManager.PostImageService.Create(postImage);
@@ -45,6 +48,7 @@ namespace HostelBanking.Controllers
             return Ok(result);
         }
         [HttpPut("update")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateAsync([FromBody] HostelTypeUpdateDto hostelType, CancellationToken cancellationToken)
         {
             var result = await _serviceManager.HostelTypeService.Update(hostelType);
@@ -54,6 +58,7 @@ namespace HostelBanking.Controllers
             return BadRequest(MessageError.ErrorUpdate);
         }
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteAsync(int id, CancellationToken cancellationToken)
         {
             await _serviceManager.PostImageService.Delete(id);

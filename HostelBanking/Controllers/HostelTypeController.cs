@@ -28,8 +28,9 @@ namespace HostelBanking.Controllers
 			}
 			return NoContent();
 		}
-		[HttpPost("create")]		
-		public async Task<IActionResult> CreateAsync([FromBody] HostelTypeCreateDto hostelType, CancellationToken cancellationToken)
+		[HttpPost("create")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> CreateAsync([FromBody] HostelTypeCreateDto hostelType, CancellationToken cancellationToken)
 		{
 			var result = await _serviceManager.HostelTypeService.Create(hostelType);
 			if (result) return Ok(result);
@@ -37,7 +38,7 @@ namespace HostelBanking.Controllers
 			return BadRequest(MessageError.ErrorCreate + ":" + result);
 		}
 		[HttpPost("search")]
-		public async Task<IActionResult> SearchDevice([FromBody] HostelTypeSearchDto search, CancellationToken cancellationToken)
+        public async Task<IActionResult> SearchDevice([FromBody] HostelTypeSearchDto search, CancellationToken cancellationToken)
 		{
 			List<HostelTypeDto> result = new();
 			result = await _serviceManager.HostelTypeService.Search(search);
@@ -45,7 +46,8 @@ namespace HostelBanking.Controllers
 			return Ok(result);
 		}
 		[HttpPut("update")]
-		public async Task<IActionResult> UpdateAsync([FromBody] HostelTypeUpdateDto hostelType, CancellationToken cancellationToken)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateAsync([FromBody] HostelTypeUpdateDto hostelType, CancellationToken cancellationToken)
 		{
 			var result = await _serviceManager.HostelTypeService.Update(hostelType);
 
@@ -54,7 +56,8 @@ namespace HostelBanking.Controllers
 			return BadRequest(MessageError.ErrorUpdate);
 		}
 		[HttpDelete]
-		public async Task<IActionResult> DeleteAsync(int id, CancellationToken cancellationToken)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteAsync(int id, CancellationToken cancellationToken)
 		{
 			await _serviceManager.HostelTypeService.Delete(id);
 			return NoContent();
