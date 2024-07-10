@@ -65,7 +65,7 @@ namespace HostelBanking.Controllers
         public async Task<IActionResult> DeleteAsync(int id, CancellationToken cancellationToken)
         {
             await _serviceManager.PostService.Delete(id);
-            return NoContent();
+            return Ok();
         }
     }
 }

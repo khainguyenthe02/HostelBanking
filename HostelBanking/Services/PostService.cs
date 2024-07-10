@@ -42,11 +42,11 @@ namespace HostelBanking.Services
             var postInfo = await _repositoryManager.PostRepository.Search(search);
             if (postInfo != null)
             {
-                var postUpdate = new Post();
+                var postUpdate = postInfo[0];
                 postUpdate.Id = id;
                 postUpdate.DeleteFlag = true;
                 var result = await _repositoryManager.PostRepository.Update(postUpdate);
-                return true;
+                return result;
             }
             return false;
         }
