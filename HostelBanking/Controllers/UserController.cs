@@ -1,6 +1,7 @@
 ﻿using HostelBanking.Entities;
 using HostelBanking.Entities.Const;
 using HostelBanking.Entities.DataTransferObjects.Account;
+using HostelBanking.Entities.DataTransferObjects.Post;
 using HostelBanking.Entities.Enum;
 using HostelBanking.Entities.Models.Account;
 using HostelBanking.Services;
@@ -236,10 +237,26 @@ namespace HostelBanking.Controllers
         //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> SearchData([FromBody] UserSearchDto searchUserDto, CancellationToken cancellationToken)
 		{
-			List<UserDto> userDto;
-			userDto = await _serviceManager.UserService.Search(searchUserDto);
-			if (userDto == null) return Ok(new List<UserDto>());
-			return Ok(userDto);
+			List<UserDto> result = new();
+			result = await _serviceManager.UserService.Search(searchUserDto);
+			var count = result.Count();
+			if (count > 0)
+			{
+				var pageIndex = searchUserDto.PageNumber;
+				int pageSize = (int)searchUserDto.PageSize;
+				var numberPage = Math.Ceiling((float)(count / pageSize));
+				int start = (pageIndex - 1) * pageSize;
+				var post = result.Skip(start).Take(pageSize);
+				return Ok(new
+				{
+					data = post,
+					totalItem = result.Count,
+					numberPage,
+					searchUserDto.PageNumber,
+					searchUserDto.PageSize
+				});
+			}
+			return Ok(new List<UserDto>());
 
 		}
 

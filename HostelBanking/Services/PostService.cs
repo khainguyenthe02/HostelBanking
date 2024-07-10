@@ -78,6 +78,7 @@ namespace HostelBanking.Services
         {
             var result = await _repositoryManager.PostRepository.Search(search);
             var resultDto = result.Adapt<List<PostDto>>();
+
             return await FilterData(resultDto);
         }
 
