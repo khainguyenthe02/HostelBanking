@@ -44,6 +44,12 @@ namespace HostelBanking.SqlServerDbHelper
 
 			return result;
 		}
+		public async Task<int> ExecuteScalar(string command, object parms)
+		{
+				int result;
+				result = await _db.ExecuteScalarAsync<int>(command, parms);
+				return result;
+		}
 	}
 }
 

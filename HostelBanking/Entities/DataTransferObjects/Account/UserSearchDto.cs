@@ -11,5 +11,7 @@
 		public int? StatusAccount { get; set; }
 		public int? RoleId { get; set; }
 		public List<int>? IdLst { get; set; }
+		public int PageNumber { get; set; } = 1;
+		public int PageSize { get; set; } = 10;
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using HostelBanking.Entities.Const;
+using HostelBanking.Entities.DataTransferObjects.Account;
 using HostelBanking.Entities.DataTransferObjects.HostelType;
 using HostelBanking.Services;
 using HostelBanking.Services.Interfaces;
@@ -42,8 +43,24 @@ namespace HostelBanking.Controllers
 		{
 			List<HostelTypeDto> result = new();
 			result = await _serviceManager.HostelTypeService.Search(search);
-			if (result == null) return Ok(new List<HostelTypeDto>());
-			return Ok(result);
+			var count = result.Count();
+			if (count > 0)
+			{
+				var pageIndex = search.PageNumber;
+				int pageSize = (int)search.PageSize;
+				var numberPage = Math.Ceiling((float)(count / pageSize));
+				int start = (pageIndex - 1) * pageSize;
+				var post = result.Skip(start).Take(pageSize);
+				return Ok(new
+				{
+					data = post,
+					totalItem = result.Count,
+					numberPage,
+					search.PageNumber,
+					search.PageSize
+				});
+			}
+			return Ok(new List<HostelTypeDto>());
 		}
 		[HttpPut("update")]
         [Authorize(Roles = "Admin")]

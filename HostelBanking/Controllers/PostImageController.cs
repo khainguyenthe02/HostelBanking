@@ -1,4 +1,5 @@
-﻿using HostelBanking.Entities.Const;
+﻿using HostelBanking.Entities;
+using HostelBanking.Entities.Const;
 using HostelBanking.Entities.DataTransferObjects.HostelType;
 using HostelBanking.Entities.DataTransferObjects.PostImage;
 using HostelBanking.Services.Interfaces;
@@ -51,7 +52,12 @@ namespace HostelBanking.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateAsync([FromBody] HostelTypeUpdateDto hostelType, CancellationToken cancellationToken)
         {
-            var result = await _serviceManager.HostelTypeService.Update(hostelType);
+			PermissionParam permission = new()
+			{
+				CancellationToken = cancellationToken
+
+			};
+			var result = await _serviceManager.HostelTypeService.Update(hostelType);
 
             if (result) return Ok(result);
 

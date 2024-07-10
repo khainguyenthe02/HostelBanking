@@ -65,19 +65,19 @@ namespace HostelBanking.Repositories
         public async Task<List<Post>> Search(PostSearchDto search)
         {
             var selectSql = "SELECT * FROM post ";
-            var whereSql = " WHERE delete_flag = 0";
+			var whereSql = " WHERE delete_flag = 0";
             if (search.Id != null)
             {
                 whereSql += " AND id = @Id";
             }
-            //if (search.HostelTypeId != null)
-            //{
-            //	whereSql += " AND hostel_type_id = @HostelTypeId";
-            //}
-            //if (search.AccountId != null)
-            //{
-            //	whereSql += " AND account_id = @AccountId";
-            //}
+            if (search.HostelTypeId != null)
+            {
+                whereSql += " AND hostel_type_id = @HostelTypeId";
+            }
+            if (search.AccountId != null)
+            {
+                whereSql += " AND account_id = @AccountId";
+            }
             if (!string.IsNullOrEmpty(search.Title))
             {
                 whereSql += " AND title LIKE @Title";
@@ -122,9 +122,10 @@ namespace HostelBanking.Repositories
             {
                 whereSql += " AND payment_type = @PaymentType";
             }
-            var postList = await _dbService.GetAll<Post>(selectSql + whereSql, search);
-            return postList;
-        }
+			var postList = await _dbService.GetAll<Post>(selectSql + whereSql, search);
+
+			return postList;
+		}
 
         public async Task<bool> Update(Post post)
         {

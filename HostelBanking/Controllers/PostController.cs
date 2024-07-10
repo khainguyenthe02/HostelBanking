@@ -58,10 +58,26 @@ namespace HostelBanking.Controllers
         {
             List<PostDto> result = new();
             result = await _serviceManager.PostService.Search(search);
-            if (result == null) return Ok(new List<PostDto>());
-            return Ok(result);
-        }
-        [HttpDelete]
+            var count = result.Count();
+            if (count > 0)
+            {
+                var pageIndex = search.PageNumber;
+                int pageSize = (int)search.PageSize;
+				var numberPage = Math.Ceiling((float)(count / pageSize));
+                int start = (pageIndex - 1) * pageSize;
+                var post = result.Skip(start).Take(pageSize);				
+				return Ok(new
+				{
+                    data = post,
+					totalItem = result.Count,
+                    numberPage,
+					search.PageNumber,
+					search.PageSize
+				});
+			}
+			 return Ok(new List<PostDto>());
+		}
+		[HttpDelete]
         public async Task<IActionResult> DeleteAsync(int id, CancellationToken cancellationToken)
         {
             await _serviceManager.PostService.Delete(id);
