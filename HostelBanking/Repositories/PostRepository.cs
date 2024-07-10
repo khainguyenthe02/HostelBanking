@@ -102,10 +102,6 @@ namespace HostelBanking.Repositories
             {
                 whereSql += " AND description_post LIKE @DescriptionPost";
             }
-            if (!string.IsNullOrEmpty(search.Images))
-            {
-                whereSql += " AND images LIKE @Images";
-            }
             if (search.CreateDate != null)
             {
                 whereSql += " AND create_date = @CreateDate";

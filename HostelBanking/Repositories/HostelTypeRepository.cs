@@ -64,8 +64,12 @@ namespace HostelBanking.Repositories
 			{
 				whereSql += " AND hostel_type_name = @HostelTypeName";
 			}
-		
-			var hostelTypeLst = await _dbService.GetAll<HostelType>(selectSql + whereSql, search);
+            if (search.IdLst != null && search.IdLst.Any())
+            {
+                whereSql += " and id IN @IdLst";
+            }
+
+            var hostelTypeLst = await _dbService.GetAll<HostelType>(selectSql + whereSql, search);
 
 				return hostelTypeLst;
 		}

@@ -233,7 +233,7 @@ namespace HostelBanking.Controllers
 
         
         [HttpPost("search-user")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> SearchData([FromBody] UserSearchDto searchUserDto, CancellationToken cancellationToken)
 		{
 			List<UserDto> userDto;

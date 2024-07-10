@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using HostelBanking.Entities.DataTransferObjects.Post;
+using HostelBanking.Entities.Models.Post;
+using Mapster;
 
 var builder = WebApplication.CreateBuilder(args);
 // Đọc cấu hình từ appsettings.json
@@ -18,6 +21,8 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnC
 // Add services to the container.
 
 builder.Services.AddControllers();
+TypeAdapterConfig<Post, PostDto>.NewConfig()
+    .Ignore(dest => dest.Images);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

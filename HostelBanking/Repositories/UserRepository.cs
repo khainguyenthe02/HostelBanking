@@ -94,8 +94,11 @@ namespace HostelBanking.Repositories
 			{
 				whereSql += " AND status_account = @StatusAccount";
 			}
-
-			var userList = await _dbService.GetAll<User>(selectSql + whereSql, search);
+            if (search.IdLst != null && search.IdLst.Any())
+            {
+                whereSql += " and id IN @IdLst";
+            }
+            var userList = await _dbService.GetAll<User>(selectSql + whereSql, search);
 			return userList;
 		}
 
@@ -124,7 +127,10 @@ namespace HostelBanking.Repositories
             {
                 whereSql += " AND status_account = @StatusAccount";
             }
-
+            if (searchbyadmin.IdLst != null && searchbyadmin.IdLst.Any())
+            {
+                whereSql += " and id IN @IdLst";
+            }
             var userList = await _dbService.GetAll<User>(selectSql + whereSql, searchbyadmin);
             return userList;
         }

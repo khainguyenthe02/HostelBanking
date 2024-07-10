@@ -59,57 +59,57 @@ CREATE TABLE post (
     CONSTRAINT fk_post_account FOREIGN KEY (account_id) REFERENCES account(id)
 );
 go
-create table post_image 
-(
-	id INT IDENTITY(1,1) primary key not null,
-	post_id int not null,
-	image_name varchar(100),
-	image_url varchar(max),
+--create table post_image 
+--(
+--	id INT IDENTITY(1,1) primary key not null,
+--	post_id int not null,
+--	image_name varchar(100),
+--	image_url varchar(max),
+--	delete_flag bit,
+--	FOREIGN KEY (post_id) REFERENCES post(id)
+--);
+go
+CREATE TABLE comment (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    account_id INT NOT NULL,
+    post_id INT NOT NULL,
+    comment NVARCHAR(MAX) NOT NULL,
+    create_date DATETIME NOT NULL,
 	delete_flag bit,
-	FOREIGN KEY (post_id) REFERENCES post(id)
+    CONSTRAINT fk_comment_account FOREIGN KEY (account_id) REFERENCES account(id),
+    CONSTRAINT fk_comment_post FOREIGN KEY (post_id) REFERENCES post(id)
 );
 go
-CREATE TABLE tblComment (
-    PK_iCommentId INT IDENTITY(1,1) PRIMARY KEY,
-    FK_iAccountId INT NOT NULL,
-    FK_iPostId INT NOT NULL,
-    sComment NVARCHAR(MAX) NOT NULL,
-    dCreatedDate DATETIME NOT NULL,
+CREATE TABLE report (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    account_id INT NOT NULL,
+    post_id INT NOT NULL,
+    report_status INT NOT NULL,
+    detail NVARCHAR(MAX) NOT NULL,
+    create_date DATETIME NOT NULL,
 	delete_flag bit,
-    CONSTRAINT FK_Comment_Account FOREIGN KEY (FK_iAccountId) REFERENCES tblAccount(PK_iAccountId),
-    CONSTRAINT FK_Comment_Post FOREIGN KEY (FK_iPostId) REFERENCES tblPost(PK_iPostId)
+    CONSTRAINT fk_report_account FOREIGN KEY (account_id) REFERENCES account(id),
+    CONSTRAINT fk_report_post FOREIGN KEY (post_id) REFERENCES post(id)
 );
 go
-CREATE TABLE tblReport (
-    PK_iReportId INT IDENTITY(1,1) PRIMARY KEY,
-    FK_iAccountId INT NOT NULL,
-    FK_iPostId INT NOT NULL,
-    iReportStatus INT NOT NULL,
-    sDetail NVARCHAR(MAX) NOT NULL,
-    dCreatedDate DATETIME NOT NULL,
+CREATE TABLE favorite (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    post_id INT NOT NULL,
+    account_id INT NOT NULL,
 	delete_flag bit,
-    CONSTRAINT FK_Report_Account FOREIGN KEY (FK_iAccountId) REFERENCES tblAccount(PK_iAccountId),
-    CONSTRAINT FK_Report_Post FOREIGN KEY (FK_iPostId) REFERENCES tblPost(PK_iPostId)
+    CONSTRAINT fk_favorite_post FOREIGN KEY (post_id) REFERENCES post(id),
+    CONSTRAINT fk_favorite_account FOREIGN KEY (account_id) REFERENCES account(id)
 );
 go
-CREATE TABLE tblFavorite (
-    PK_iFavoriteId INT IDENTITY(1,1) PRIMARY KEY,
-    FK_iPostId INT NOT NULL,
-    FK_iAccountId INT NOT NULL,
+CREATE TABLE pay_history (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    post_id INT NOT NULL,
+    account_id INT NOT NULL,
+    pay_date DATETIME NOT NULL,
+    type INT NOT NULL,
+    price FLOAT NOT NULL,
 	delete_flag bit,
-    CONSTRAINT FK_Favorite_Post FOREIGN KEY (FK_iPostId) REFERENCES tblPost(PK_iPostId),
-    CONSTRAINT FK_Favorite_Account FOREIGN KEY (FK_iAccountId) REFERENCES tblAccount(PK_iAccountId)
-);
-go
-CREATE TABLE tblPayHistory (
-    PK_iPayHistoryId INT IDENTITY(1,1) PRIMARY KEY,
-    FK_iPostId INT NOT NULL,
-    FK_iAccountId INT NOT NULL,
-    dPayDate DATETIME NOT NULL,
-    iType INT NOT NULL,
-    fPrice FLOAT NOT NULL,
-	delete_flag bit,
-    CONSTRAINT FK_PayHistory_Post FOREIGN KEY (FK_iPostId) REFERENCES tblPost(PK_iPostId),
-    CONSTRAINT FK_PayHistory_Account FOREIGN KEY (FK_iAccountId) REFERENCES tblAccount(PK_iAccountId)
+    CONSTRAINT fk_posthistory_account FOREIGN KEY (post_id) REFERENCES post(id),
+    CONSTRAINT fk_payhistory_Account FOREIGN KEY (account_id) REFERENCES account(id)
 );
 go

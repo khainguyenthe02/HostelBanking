@@ -6,4 +6,9 @@
 		ACTIVE,
 		BLOCK
 	}
+	public enum PaymentStatus
+	{
+		PENDING,
+		PAID
+	}
 }

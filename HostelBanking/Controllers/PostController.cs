@@ -1,4 +1,6 @@
 ﻿using HostelBanking.Entities.Const;
+using HostelBanking.Entities.DataTransferObjects.Account;
+using HostelBanking.Entities.DataTransferObjects.HostelType;
 using HostelBanking.Entities.DataTransferObjects.Post;
 using HostelBanking.Entities.DataTransferObjects.PostImage;
 using HostelBanking.Entities.Models.Post;
@@ -23,8 +25,8 @@ namespace HostelBanking.Controllers
         //[Authorize]
         public async Task<IActionResult> CreateAsync([FromBody] PostCreateDto postDto, CancellationToken cancellationToken)
         {
-            postDto.CreateDate = DateTime.UtcNow;
-            postDto.ModifiedDate = DateTime.UtcNow;
+            postDto.CreateDate = DateTime.Now.Date;
+            postDto.ModifiedDate = DateTime.Now.Date;
 			var created = await _serviceManager.PostService.Create(postDto);
 			if (created!= null)
 			{
@@ -32,5 +34,38 @@ namespace HostelBanking.Controllers
 			}
 			return BadRequest(MessageError.ErrorCreate);
 		}
+        [HttpGet("id={id}")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
+        {
+            var result = await _serviceManager.PostService.GetById(id);
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            return NoContent();
+        }
+        [HttpGet("get-all-posts")]
+        public async Task<IActionResult> GetPosts()
+        {
+            List<PostDto> postDto;
+            postDto = await _serviceManager.PostService.GetAll();
+            if (postDto == null) postDto = new();
+            return Ok(postDto);
+        }
+        [HttpPost("search")]
+        public async Task<IActionResult> SearchDevice([FromBody] PostSearchDto search, CancellationToken cancellationToken)
+        {
+            List<PostDto> result = new();
+            result = await _serviceManager.PostService.Search(search);
+            if (result == null) return Ok(new List<PostDto>());
+            return Ok(result);
+        }
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAsync(int id, CancellationToken cancellationToken)
+        {
+            await _serviceManager.PostService.Delete(id);
+            return NoContent();
+        }
     }
 }
