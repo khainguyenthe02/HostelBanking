@@ -20,26 +20,13 @@ namespace HostelBanking.Services
 
         public async Task<Post> Create(PostCreateDto post)
         {
-            var postInfo = new Post
-            {
-                Title = post.Title,
-                Price = post.Price,
-                Acreage = post.Acreage,
-                District = post.District,
-                Ward = post.Ward,
-                DescriptionPost = post.DescriptionPost,
-                Images = JsonConvert.SerializeObject(post.Images),
-                PhoneNumber = post.PhoneNumber,
-                OwnerHouse = post.OwnerHouse,
-                PaymentType = post.PaymentType,
-                HostelTypeId = post.HostelTypeId,
-                AccountId = post.AccountId,
-                CreateDate = DateTime.UtcNow,
-                ModifiedDate = DateTime.UtcNow
-
-            };
-            _ = await _repositoryManager.PostRepository.Create(postInfo);
+            var postInfo = post.Adapt<Post>();
+            postInfo.CreateDate = DateTime.UtcNow;
+            postInfo.ModifiedDate = DateTime.UtcNow;
+            postInfo.Images = string.Join(",", post.Images);
+            var result = await _repositoryManager.PostRepository.Create(postInfo);
             return postInfo;
+
         }
 
         public Task<bool> Delete(int id)

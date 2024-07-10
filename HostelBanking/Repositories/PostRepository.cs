@@ -11,14 +11,11 @@ namespace HostelBanking.Repositories
     public class PostRepository : IPostRepository
     {
         private readonly IDbService _dbService;
-        private readonly IDbConnection _db;
 
 
         public PostRepository(IConfiguration configuration)
         {
             _dbService = new DbService(configuration);
-            _db = new SqlConnection(configuration.GetConnectionString("HostelBanking"));
-
         }
 
         public async Task<int> Create(Post post)
