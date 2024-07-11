@@ -136,7 +136,8 @@ namespace HostelBanking.Repositories
             {
                 whereSql += " AND payment_type = @PaymentType";
             }
-			var postList = await _dbService.GetAll<Post>(selectSql + whereSql, search);
+            whereSql += "ORDER By modified_date DESC";
+            var postList = await _dbService.GetAll<Post>(selectSql + whereSql, search);
 
 			return postList;
 		}
