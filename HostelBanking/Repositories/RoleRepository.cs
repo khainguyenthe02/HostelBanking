@@ -76,7 +76,7 @@ namespace HostelBanking.Repositories
 
 		public async Task<bool> Update(Roles roles)
 		{
-			var updateSql = " UPDATE dbo.roles SET  ";
+			var updateSql = " UPDATE roles SET  ";
 			if (roles.RoleName != null)
 			{
 				updateSql += " role_name=@RoleName, ";
@@ -87,7 +87,7 @@ namespace HostelBanking.Repositories
 			}
 			if (roles.DeleteFlag != null)
 			{
-				updateSql += " delete_flag=@DeletFlag ";
+				updateSql += " delete_flag=@DeleteFlag ";
 			}
 			else
 			{
