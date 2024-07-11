@@ -21,10 +21,10 @@ namespace HostelBanking.Repositories
         public async Task<int> Create(Post post)
         {
             var result = await _dbService.EditData(
-            "INSERT INTO post (hostel_type_id, account_id, title, price, acreage, dictrict, ward, description_post," +
-            " images, create_date, phone_number, owner_house, modified_date, payment_type, delete_flag) " +
-            "VALUES (@HostelTypeId, @AccountId, @Title, @Price, @Acreage, @District, @Ward, @DescriptionPost, " +
-            "@Images, @CreateDate, @PhoneNumber, @OwnerHouse, @ModifiedDate, @PaymentType, @DeleteFlag)",
+            "INSERT INTO post (hostel_type_id, account_id, title, price, acreage, dictrict, ward, street, description_post," +
+            " images, create_date, phone_number, zalo, owner_house, modified_date, payment_type, count_views, delete_flag) " +
+            "VALUES (@HostelTypeId, @AccountId, @Title, @Price, @Acreage, @District, @Ward, @Street, @DescriptionPost, " +
+            "@Images, @CreateDate, @PhoneNumber,@Zalo, @OwnerHouse, @ModifiedDate, @PaymentType, @CountViews, @DeleteFlag)",
             post);
             if (result > 0)
             {
@@ -98,6 +98,10 @@ namespace HostelBanking.Repositories
             {
                 whereSql += " AND ward LIKE @Ward";
             }
+            if (!string.IsNullOrEmpty(search.Street))
+            {
+                whereSql += " AND street LIKE @Street";
+            }
             if (!string.IsNullOrEmpty(search.DescriptionPost))
             {
                 whereSql += " AND description_post LIKE @DescriptionPost";
@@ -158,6 +162,14 @@ namespace HostelBanking.Repositories
             {
                 updateSql += " ward=@Ward, ";
             }
+            if (post.Zalo != null)
+            {
+                updateSql += " zalo=@Zalo, ";
+            }
+            if (!string.IsNullOrEmpty(post.Street))
+            {
+                updateSql += " street=@Street, ";
+            }
             if (post.DescriptionPost != null)
             {
                 updateSql += " description_post=@DescriptionPost, ";
@@ -181,6 +193,10 @@ namespace HostelBanking.Repositories
             if (post.PaymentType != null)
             {
                 updateSql += " payment_type=@PaymentType, ";
+            }
+            if(post.CountViews != null)
+            {
+                updateSql += " count_views=@CountViews, ";
             }
             if (post.DeleteFlag != null)
             {

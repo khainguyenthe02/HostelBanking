@@ -20,9 +20,18 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnC
 
 // Add services to the container.
 
+
 builder.Services.AddControllers();
+
+//Maspster configuration 
 TypeAdapterConfig<Post, PostDto>.NewConfig()
     .Ignore(dest => dest.Images);
+TypeAdapterConfig<Post, PostDto>.NewConfig()
+    .Map(post => post.Images, postDto => !string.IsNullOrEmpty(postDto.Images)
+        ? postDto.Images.Split(new[] { ',' }, StringSplitOptions.None).ToList()
+        : new List<string>());
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

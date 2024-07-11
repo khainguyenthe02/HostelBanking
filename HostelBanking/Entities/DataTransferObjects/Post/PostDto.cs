@@ -17,7 +17,8 @@
         public string OwnerHouse { get; set; }
 		public DateTime ModifiedDate { get; set; }
 		public int PaymentType { get; set; }
-		public int? HostelTypeId { get; set; }
+		public int CountViews { get; set; }
+		public int?	 HostelTypeId { get; set; }
 		public string HostelTypeName { get; set; }
 		public int? AccountId { get; set; }
 		public string AccountName { get; set; }

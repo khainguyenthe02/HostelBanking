@@ -3,12 +3,14 @@ using HostelBanking.Entities.DataTransferObjects.HostelType;
 using HostelBanking.Entities.DataTransferObjects.Post;
 using HostelBanking.Entities.DataTransferObjects.PostImage;
 using HostelBanking.Entities.DataTransferObjects.Roles;
+using HostelBanking.Entities.Enum;
 using HostelBanking.Entities.Models.HostelType;
 using HostelBanking.Entities.Models.Post;
 using HostelBanking.Entities.Models.PostImages;
 using HostelBanking.Repositories.Interfaces;
 using HostelBanking.Services.Interfaces;
 using Mapster;
+using Mapster.Utils;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
@@ -27,7 +29,10 @@ namespace HostelBanking.Services
             var postInfo = post.Adapt<Post>();
             postInfo.CreateDate = DateTime.Now.Date;
             postInfo.ModifiedDate = DateTime.Now.Date;
+            postInfo.CountViews = 0;
             postInfo.Images = string.Join(",", post.Images);
+            postInfo.PaymentType = (int)PaymentStatus.PENDING;
+
             var result = await _repositoryManager.PostRepository.Create(postInfo);
             return postInfo;
 
@@ -59,11 +64,15 @@ namespace HostelBanking.Services
 
         public async Task<PostDto> GetById(int id)
         {
-            var result = await _repositoryManager.PostRepository.GetById(id);
-            var postDto = result.Adapt<PostDto>();
-            if (!string.IsNullOrEmpty(result.Images))
+            var post = await _repositoryManager.PostRepository.GetById(id);
+            if (post == null) return new PostDto();  
+            
+            post.CountViews += 1;
+            var result = await _repositoryManager.PostRepository.Update(post);           
+            var postDto = post.Adapt<PostDto>();
+            if (!string.IsNullOrEmpty(post.Images))
             {
-                postDto.Images = result.Images.Split(',').ToList();
+                postDto.Images = post.Images.Split(',').ToList();
             }
             return postDto;
 
@@ -78,7 +87,7 @@ namespace HostelBanking.Services
         {
             var result = await _repositoryManager.PostRepository.Search(search);
             var resultDto = result.Adapt<List<PostDto>>();
-
+            
             return await FilterData(resultDto);
         }
 
