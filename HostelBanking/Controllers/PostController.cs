@@ -58,6 +58,7 @@ namespace HostelBanking.Controllers
         {
             List<PostDto> result = new();
             result = await _serviceManager.PostService.Search(search);
+            result= result.OrderByDescending(p=>p.ModifiedDate).ToList();
             var count = result.Count();
             if (count > 0)
             {
