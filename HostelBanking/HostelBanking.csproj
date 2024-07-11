@@ -25,7 +25,6 @@
   <ItemGroup>
     <Folder Include="Entities\Models\Comment\" />
     <Folder Include="Entities\Models\Favorite\" />
-    <Folder Include="Entities\Models\PayHistory\" />
     <Folder Include="Entities\Models\Report\" />
   </ItemGroup>
 

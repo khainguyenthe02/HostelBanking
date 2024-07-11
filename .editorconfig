@@ -35,6 +35,12 @@ dotnet_diagnostic.CS8603.severity = none
 # CS8601: Possible null reference assignment.
 dotnet_diagnostic.CS8601.severity = none
 
+# CA1805: Do not initialize unnecessarily
+dotnet_diagnostic.CA1805.severity = none
+
+# CS8625: Cannot convert null literal to non-nullable reference type.
+dotnet_diagnostic.CS8625.severity = none
+
 [*.{cs,vb}]
 #### Naming styles ####
 

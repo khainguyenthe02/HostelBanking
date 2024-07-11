@@ -27,8 +27,8 @@ namespace HostelBanking.Services
         public async Task<Post> Create(PostCreateDto post)
         {
             var postInfo = post.Adapt<Post>();
-            postInfo.CreateDate = DateTime.Now.Date;
-            postInfo.ModifiedDate = DateTime.Now.Date;
+            postInfo.CreateDate = DateTime.Now;
+            postInfo.ModifiedDate = DateTime.Now;
             postInfo.CountViews = 0;
             postInfo.Images = string.Join(",", post.Images);
             postInfo.PaymentType = (int)PaymentStatus.PENDING;
@@ -59,12 +59,13 @@ namespace HostelBanking.Services
         public async Task<List<PostDto>> GetAll()
         {
             var result = await _repositoryManager.PostRepository.GetAll();
-            return result.Adapt<List<PostDto>>();
+            var resultDto = result.Adapt<List<PostDto>>();
+
+            return await FilterData(resultDto);
         }
         public async Task<List<PostDto>> GetNewest()
         {
             var result = await _repositoryManager.PostRepository.GetNewest();
-            var i = 0;
             result.ForEach((post) =>
             {
                 post.Adapt<PostDto>().Images=post.Images.Split(',').ToList();

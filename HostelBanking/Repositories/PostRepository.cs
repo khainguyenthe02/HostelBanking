@@ -24,7 +24,7 @@ namespace HostelBanking.Repositories
             "INSERT INTO post (hostel_type_id, account_id, title, price, acreage, dictrict, ward, street, description_post," +
             " images, create_date, phone_number, zalo, owner_house, modified_date, payment_type, count_views, delete_flag) " +
             "VALUES (@HostelTypeId, @AccountId, @Title, @Price, @Acreage, @District, @Ward, @Street, @DescriptionPost, " +
-            "@Images, @CreateDate, @PhoneNumber,@Zalo, @OwnerHouse, @ModifiedDate, @PaymentType, @CountViews, @DeleteFlag)",
+            "@Images, @CreateDate, @PhoneNumber, @Zalo, @OwnerHouse, @ModifiedDate, @PaymentType, @CountViews, @DeleteFlag)",
             post);
             if (result > 0)
             {

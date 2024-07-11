@@ -17,7 +17,6 @@ namespace HostelBanking.Entities.DataTransferObjects.Post
         public string Street { get; set; }
         public string OwnerHouse { get; set; }
 		public DateTime? ModifiedDate { get; set; }
-        public int CountViews { get; set; }
         public int HostelTypeId { get; set; }
 		public int AccountId { get; set; }
        

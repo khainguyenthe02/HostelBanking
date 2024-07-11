@@ -1,6 +1,6 @@
-﻿namespace HostelBanking.Entities.Models.PayHistory
+﻿namespace HostelBanking.Entities.DataTransferObjects.PayHistory
 {
-    public class PayHistory : Base
+    public class PayHistoryCreateDto
     {
         public int PostId { get; set; }
         public int AccountId { get; set; }

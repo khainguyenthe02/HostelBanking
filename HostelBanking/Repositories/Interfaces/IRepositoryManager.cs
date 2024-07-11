@@ -7,5 +7,6 @@
 		IUserRepository UserRepository { get; }
 		IPostRepository PostRepository { get; }
 		IPostImageRepository PostImageRepository { get; }
+		IPayHistoryRepository PayHistoryRepository { get; }
 	}
 }
