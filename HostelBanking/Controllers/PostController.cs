@@ -83,5 +83,20 @@ namespace HostelBanking.Controllers
             await _serviceManager.PostService.Delete(id);
             return Ok();
         }
+
+
+        [HttpGet("newest")]
+        public async Task<IActionResult> Newest( CancellationToken cancellationToken)
+        {
+            List<PostDto> result = new();
+            result = await _serviceManager.PostService.GetNewest();
+            var count = result.Count();
+            if (count > 0)
+            {
+                
+                return Ok(result);
+            }
+            return Ok(new List<PostDto>());
+        }
     }
 }
