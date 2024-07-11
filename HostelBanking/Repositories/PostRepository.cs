@@ -53,6 +53,11 @@ namespace HostelBanking.Repositories
             var postList = await _dbService.GetAll<Post>("SELECT Top 10 * FROM post Where delete_flag = 0 ORDER BY modified_date DESC", new { });
             return postList;
         }
+        public async Task<List<Post>> GetMostView()
+        {
+            var postList = await _dbService.GetAll<Post>("SELECT Top 10 * FROM post Where delete_flag = 0 ORDER BY countViews DESC", new { });
+            return postList;
+        }
 
         public async Task<Post> GetById(int id)
         {

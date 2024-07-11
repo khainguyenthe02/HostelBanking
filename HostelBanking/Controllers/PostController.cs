@@ -98,5 +98,19 @@ namespace HostelBanking.Controllers
             }
             return Ok(new List<PostDto>());
         }
+
+        [HttpGet("mostView")]
+        public async Task<IActionResult> MostView(CancellationToken cancellationToken)
+        {
+            List<PostDto> result = new();
+            result = await _serviceManager.PostService.GetMostView();
+            var count = result.Count();
+            if (count > 0)
+            {
+
+                return Ok(result);
+            }
+            return Ok(new List<PostDto>());
+        }
     }
 }

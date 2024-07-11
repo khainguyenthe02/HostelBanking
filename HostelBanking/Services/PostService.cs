@@ -74,6 +74,17 @@ namespace HostelBanking.Services
             return result.Adapt<List<PostDto>>();
         }
 
+        public async Task<List<PostDto>> GetMostView()
+        {
+            var result = await _repositoryManager.PostRepository.GetNewest();
+            result.ForEach((post) =>
+            {
+                post.Adapt<PostDto>().Images = post.Images.Split(',').ToList();
+            });
+
+            return result.Adapt<List<PostDto>>();
+        }
+
         public async Task<PostDto> GetById(int id)
         {
             var post = await _repositoryManager.PostRepository.GetById(id);
