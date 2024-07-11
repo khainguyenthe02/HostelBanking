@@ -13,5 +13,6 @@ namespace HostelBanking.Services.Interfaces
 		Task<PostDto> GetById(int id);
 		Task<bool> Update(PostUpdateDto post);
 		Task<List<PostDto>> Search(PostSearchDto search);
-	}
+		Task<List<PostDto>> GetNewest();
+    }
 }

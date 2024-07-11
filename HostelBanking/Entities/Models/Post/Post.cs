@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HostelBanking.Entities.DataTransferObjects.Post;
+using System.ComponentModel.DataAnnotations;
 
 namespace HostelBanking.Entities.Models.Post
 {
@@ -18,5 +19,10 @@ namespace HostelBanking.Entities.Models.Post
         public int PaymentType { get; set; }
         public int HostelTypeId { get; set; }
         public int AccountId { get; set; }
+
+        public static implicit operator Post(PostDto v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
