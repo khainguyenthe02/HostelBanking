@@ -9,6 +9,7 @@ using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace HostelBanking.Controllers
 {
@@ -85,6 +86,20 @@ namespace HostelBanking.Controllers
             return Ok();
         }
 
+
+        [HttpPut("update-post")]
+        public async Task<IActionResult> UpdatePost([FromBody] PostUpdateDto postUpdateDto, CancellationToken cancellationToken)
+        {
+            
+            var post = await _serviceManager.PostService.GetByIdUpdate((int)postUpdateDto.Id);
+            if (post == null) return StatusCode((int)HttpStatusCode.BadRequest, "Bài viết không tồn tại");
+            
+            if (await _serviceManager.PostService.Update(postUpdateDto))
+            {
+                return Ok();
+            }
+            return BadRequest(MessageError.ErrorUpdate);
+        }
 
         [HttpGet("newest")]
         public async Task<IActionResult> Newest( CancellationToken cancellationToken)

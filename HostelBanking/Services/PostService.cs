@@ -100,6 +100,19 @@ namespace HostelBanking.Services
             return postDto;
 
         }
+        public async Task<PostDto> GetByIdUpdate(int id)
+        {
+            var post = await _repositoryManager.PostRepository.GetById(id);
+            if (post == null) return new PostDto();
+            var result = await _repositoryManager.PostRepository.Update(post);
+            var postDto = post.Adapt<PostDto>();
+            if (!string.IsNullOrEmpty(post.Images))
+            {
+                postDto.Images = post.Images.Split(',').ToList();
+            }
+            return postDto;
+
+        }
 
         public async Task<Post> GetLatestPost()
         {
@@ -117,6 +130,8 @@ namespace HostelBanking.Services
         public async Task<bool> Update(PostUpdateDto post)
         {
             var postInfo = post.Adapt<Post>();
+            postInfo.ModifiedDate = DateTime.Now;
+            postInfo.Images = string.Join(",", post.Images);
             var result = await _repositoryManager.PostRepository.Update(postInfo);
             return result;
         }

@@ -11,7 +11,7 @@
         public string? Zalo { get; set; }
         public string? Street { get; set; }
         public string? DescriptionPost { get; set; }
-		public string? Images { get; set; }
+        public List<string>? Images { get; set; }
 		public string? PhoneNumber { get; set; }
 		public string? OwnerHouse { get; set; }
 		public DateTime? ModifiedDate { get; set; }
@@ -19,6 +19,6 @@
         public int? HostelTypeId { get; set; }
 		public int? AccountId { get; set; }
 		public bool? DeleteFlag { get; set; }
-        public List<string> ImageList { get; set; }
+        //public List<string> ImageList { get; set; }
     }
 }
