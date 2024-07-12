@@ -21,7 +21,7 @@ namespace HostelBanking.Repositories
         public async Task<int> Create(Post post)
         {
             var result = await _dbService.EditData(
-            "INSERT INTO post (hostel_type_id, account_id, title, price, acreage, dictrict, ward, street, description_post," +
+            "INSERT INTO post (hostel_type_id, account_id, title, price, acreage, district, ward, street, description_post," +
             " images, create_date, phone_number, zalo, owner_house, modified_date, payment_type, count_views, delete_flag) " +
             "VALUES (@HostelTypeId, @AccountId, @Title, @Price, @Acreage, @District, @Ward, @Street, @DescriptionPost, " +
             "@Images, @CreateDate, @PhoneNumber, @Zalo, @OwnerHouse, @ModifiedDate, @PaymentType, @CountViews, @DeleteFlag)",
@@ -102,7 +102,7 @@ namespace HostelBanking.Repositories
             }
             if (!string.IsNullOrEmpty(search.District))
             {
-                whereSql += " AND dictrict LIKE @District";
+                whereSql += " AND district LIKE @District";
             }
             if (!string.IsNullOrEmpty(search.Ward))
             {
@@ -166,7 +166,7 @@ namespace HostelBanking.Repositories
             }
             if (post.District != null)
             {
-                updateSql += " dictrict=@District, ";
+                updateSql += " district=@District, ";
             }
             if (post.Ward != null)
             {

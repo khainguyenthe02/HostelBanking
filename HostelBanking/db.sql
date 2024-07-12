@@ -45,7 +45,7 @@ CREATE TABLE post (
     title NVARCHAR(255) NOT NULL,
     price FLOAT NOT NULL,
     acreage INT NOT NULL,
-    dictrict NVARCHAR(255) NOT NULL,
+    district NVARCHAR(255) NOT NULL,
     ward NVARCHAR(255) NOT NULL,
     street nvarchar(255) NOT NULL,
     description_post NTEXT,
