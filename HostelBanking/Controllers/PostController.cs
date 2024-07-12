@@ -58,6 +58,7 @@ namespace HostelBanking.Controllers
         {
             List<PostDto> result = new();
             result = await _serviceManager.PostService.Search(search);
+            result= result.OrderByDescending(p=>p.ModifiedDate).ToList();
             var count = result.Count();
             if (count > 0)
             {
@@ -94,6 +95,20 @@ namespace HostelBanking.Controllers
             if (count > 0)
             {
                 
+                return Ok(result);
+            }
+            return Ok(new List<PostDto>());
+        }
+
+        [HttpGet("mostView")]
+        public async Task<IActionResult> MostView(CancellationToken cancellationToken)
+        {
+            List<PostDto> result = new();
+            result = await _serviceManager.PostService.GetMostView();
+            var count = result.Count();
+            if (count > 0)
+            {
+
                 return Ok(result);
             }
             return Ok(new List<PostDto>());

@@ -16,7 +16,6 @@ namespace HostelBanking.Repositories
 		{
 			_dbService = new DbService(configuration);
 		}
-
 		public async Task<bool> Create(PostImage postImage)
 		{
 			var result = await _dbService.EditData(
@@ -32,25 +31,21 @@ namespace HostelBanking.Repositories
 				return false;
 			}
 		}
-
 		public async Task<bool> Delete(int id)
 		{
 			var result = await _dbService.EditData("DELETE FROM post_image WHERE id = @Id", new { Id = id });
 			return true;
 		}
-
 		public async Task<List<PostImage>> GetAll()
 		{
 			var postImageList = await _dbService.GetAll<PostImage>("SELECT * FROM post_image", new { });
 			return postImageList;
 		}
-
 		public async Task<PostImage> GetById(int id)
 		{
 			var postImage = await _dbService.GetAsync<PostImage>("SELECT * FROM post_image WHERE id = @Id", new { Id = id });
 			return postImage;
 		}
-
 		public async Task<List<PostImage>> Search(PostImageSearchDto search)
 		{
 			var selectSql = "SELECT * FROM post_image ";
@@ -70,7 +65,6 @@ namespace HostelBanking.Repositories
 			var postImageList = await _dbService.GetAll<PostImage>(selectSql + whereSql, search);
 			return postImageList;
 		}
-
 		public async Task<bool> Update(PostImage postImage)
 		{
 			var updateSql = " UPDATE post SET  ";

@@ -10,6 +10,7 @@ namespace HostelBanking.Repositories.Interfaces
 		Task<int> Create(Post post);
 		Task<List<Post>> GetAll();
 		Task<List<Post>> GetNewest();
+        Task<List<Post>> GetMostView();
         Task<Post> GetLatestPost();
 		Task<bool> Update(Post post);
 		Task<bool> Delete(int id);
