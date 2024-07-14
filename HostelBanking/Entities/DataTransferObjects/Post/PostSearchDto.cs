@@ -17,6 +17,8 @@
 		public int? PaymentType { get; set; }
 		public int? HostelTypeId { get; set; }
 		public int? AccountId { get; set; }
+		public int? PriceRange { get; set; }
+		public int? AcreageRange { get; set; }
 		public int PageNumber { get; set; } = 1;
 		public int PageSize { get; set; } = 10;
 	}

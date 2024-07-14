@@ -73,7 +73,8 @@ namespace HostelBanking.Services
 		public async Task<List<UserDto>> GetAll()
 		{
 			var result = await _repositoryManager.UserRepository.GetAll();
-			return result?.Adapt<List<UserDto>>();
+			var resultDto =  result.Adapt<List<UserDto>>();
+			return await FilterData(resultDto);
 		}
 
 		public async Task<UserDto> GetByEmail(string email)

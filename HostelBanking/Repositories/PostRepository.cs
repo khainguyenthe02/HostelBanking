@@ -118,7 +118,7 @@ namespace HostelBanking.Repositories
             }
             if (search.CreateDate != null)
             {
-                whereSql += " AND create_date = @CreateDate";
+                whereSql += " AND create_date >= @CreateDate";
             }
             if (!string.IsNullOrEmpty(search.PhoneNumber))
             {
@@ -130,7 +130,7 @@ namespace HostelBanking.Repositories
             }
             if (search.ModifiedDate != null)
             {
-                whereSql += " AND modified_date = @ModifiedDate";
+                whereSql += " AND modified_date >= @ModifiedDate";
             }
             if (search.PaymentType != null)
             {

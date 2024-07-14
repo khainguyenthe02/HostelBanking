@@ -12,6 +12,7 @@ using HostelBanking.Services.Interfaces;
 using Mapster;
 using Mapster.Utils;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
 namespace HostelBanking.Services
@@ -123,8 +124,15 @@ namespace HostelBanking.Services
         {
             var result = await _repositoryManager.PostRepository.Search(search);
             var resultDto = result.Adapt<List<PostDto>>();
-            
-            return await FilterData(resultDto);
+			if (search.PriceRange.HasValue)
+			{
+				resultDto = FilterByPriceRange(resultDto, (PriceRange)search.PriceRange.Value);
+			}
+			if (search.AcreageRange.HasValue)
+			{
+				resultDto = FilterByAcreageRange(resultDto, (AcreageRange)search.AcreageRange.Value);
+			}
+			return await FilterData(resultDto);
         }
 
         public async Task<bool> Update(PostUpdateDto post)
@@ -180,5 +188,35 @@ namespace HostelBanking.Services
             }
             return lstPosts;
         }
-    }
+        private  List<PostDto> FilterByPriceRange(List<PostDto> lstPosts, PriceRange priceRange)
+        {
+			return priceRange switch
+			{
+				PriceRange.ALL => lstPosts,
+				PriceRange.AGREEMENT => lstPosts.Where(post => post.Price == null).ToList(),
+				PriceRange.BELOW_ONE => lstPosts.Where(post =>  post.Price < 1000000).ToList(),
+				PriceRange.ONE_TO_TWO => lstPosts.Where(post => post.Price > 1000000 && post.Price < 2000000).ToList(),
+				PriceRange.TWO_TO_FOUR => lstPosts.Where(post => post.Price > 2000000 && post.Price < 4000000).ToList(),
+				PriceRange.FOUR_TO_SIX => lstPosts.Where(post => post.Price > 4000000 && post.Price < 6000000).ToList(),
+				PriceRange.SIX_TO_EIGHT => lstPosts.Where(post => post.Price > 6000000 && post.Price < 8000000).ToList(),
+				PriceRange.EIGHT_TO_TEN => lstPosts.Where(post => post.Price > 8000000 && post.Price < 10000000).ToList(),
+				PriceRange.ABOVE_TEN => lstPosts.Where(post => post.Price >= 10000000).ToList(),
+				_ => lstPosts,
+			};
+		}
+		private List<PostDto> FilterByAcreageRange(List<PostDto> lstPosts, AcreageRange acreageRange)
+		{
+			return acreageRange switch
+			{
+				AcreageRange.ALL => lstPosts,
+				AcreageRange.BELOW_TWENTY => lstPosts.Where(post =>  post.Acreage < 20).ToList(),
+				AcreageRange.TWENTY_TO_FORTY => lstPosts.Where(post =>  post.Acreage >= 20 && post.Acreage < 40).ToList(),
+				AcreageRange.FORTY_TO_SIXTY => lstPosts.Where(post => post.Acreage >= 40 && post.Acreage < 60).ToList(),
+				AcreageRange.SIXTY_TO_EIGHTY => lstPosts.Where(post => post.Acreage >= 60 && post.Acreage < 80).ToList(),
+				AcreageRange.EIGHTY_TO_HUNDRED => lstPosts.Where(post =>  post.Acreage >= 80 && post.Acreage < 100).ToList(),
+				AcreageRange.ABOVE_HUNDRED => lstPosts.Where(post =>  post.Acreage >= 100).ToList(),
+				_ => lstPosts,
+			};
+		}
+	}
 }
