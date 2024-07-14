@@ -11,4 +11,26 @@
 		PENDING,
 		PAID
 	}
+	public enum PriceRange
+	{
+		ALL,
+		AGREEMENT,
+		BELOW_ONE,
+		ONE_TO_TWO,
+		TWO_TO_FOUR,
+		FOUR_TO_SIX,
+		SIX_TO_EIGHT,
+		EIGHT_TO_TEN,
+		ABOVE_TEN
+	}
+	public enum AcreageRange
+	{
+		ALL,
+		BELOW_TWENTY,
+		TWENTY_TO_FORTY,
+		FORTY_TO_SIXTY,
+		SIXTY_TO_EIGHTY,
+		EIGHTY_TO_HUNDRED,
+		ABOVE_HUNDRED
+	}
 }

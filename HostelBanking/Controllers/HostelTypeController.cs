@@ -30,7 +30,7 @@ namespace HostelBanking.Controllers
 			return NoContent();
 		}
 		[HttpPost("create")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateAsync([FromBody] HostelTypeCreateDto hostelType, CancellationToken cancellationToken)
 		{
 			var result = await _serviceManager.HostelTypeService.Create(hostelType);
