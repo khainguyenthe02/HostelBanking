@@ -43,7 +43,18 @@ namespace HostelBanking.Controllers
 			return Ok(userDto);
 		}
 
-		[HttpGet("get-users")]
+        [HttpGet("get-user-by-email/{email}")]
+        public async Task<IActionResult> GetUserByEmal(string email)
+        {
+            var userDto = await _serviceManager.UserService.GetByEmail(email);
+            if (userDto is null)
+            {
+                return StatusCode((int)HttpStatusCode.NoContent);
+            }
+            return Ok(userDto);
+        }
+
+        [HttpGet("get-users")]
 		public async Task<IActionResult> GetUsers()
 		{
 			List<UserDto> userDto;
@@ -218,7 +229,41 @@ namespace HostelBanking.Controllers
 			else
 				return BadRequest(MessageError.InvalidRePasswordError);
 		}
-		[HttpPut("update-user")]
+
+
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> UserForgotPassword([FromBody] forgotPassDto userforgotPassword, CancellationToken cancellationToken)
+        {
+
+            if (!string.IsNullOrEmpty(userforgotPassword.ReNewPassword))
+            {
+
+                //Check mail
+                if (!userforgotPassword.NewPassword.Equals(userforgotPassword.ReNewPassword))
+                    return BadRequest(MessageError.ComparePasswordError);
+
+                // check password invalid
+                if (!Validate.ValidatePasword(userforgotPassword.NewPassword))
+                    return BadRequest(MessageError.TypingPasswordError);
+               
+                // check oldPass is true?
+                var user = await _serviceManager.UserService.GetById((int)userforgotPassword.Id);
+               
+                // update password 
+                if (await _serviceManager.UserService.UpdatePassword((int)user.Id, userforgotPassword.NewPassword))
+                {
+                    return Ok();
+                }
+                else return BadRequest(MessageError.ErrorUpdate);
+            }
+            else
+                return BadRequest(MessageError.InvalidRePasswordError);
+        }
+
+
+
+        [HttpPut("update-user")]
         [Authorize]
         public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDto updateUserDto, CancellationToken cancellationToken)
 		{
