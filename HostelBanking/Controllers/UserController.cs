@@ -311,9 +311,25 @@ namespace HostelBanking.Controllers
         {
             List<UserDto> userDto;
             userDto = await _serviceManager.UserService.SearchByAdmin(searchUserDto);
-            if (userDto == null) return Ok(new List<UserDto>());
-            return Ok(userDto);
-
+			var count= userDto.Count();
+			if (count > 0)
+			{
+                var pageIndex = searchUserDto.PageNumber;
+                int pageSize = (int)searchUserDto.PageSize;
+                var numberPage = Math.Ceiling((float)(count / pageSize));
+                int start = (pageIndex - 1) * pageSize;
+                var post = userDto.Skip(start).Take(pageSize);
+                return Ok(new
+                {
+                    data = post,
+                    totalItem = userDto.Count,
+                    numberPage,
+                    searchUserDto.PageNumber,
+                    searchUserDto.PageSize
+                });
+            }
+          return Ok(new List<UserDto>());
+            
         }
     }
 }

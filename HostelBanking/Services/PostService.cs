@@ -192,7 +192,6 @@ namespace HostelBanking.Services
         {
 			return priceRange switch
 			{
-				PriceRange.ALL => lstPosts,
 				PriceRange.AGREEMENT => lstPosts.Where(post => post.Price == null).ToList(),
 				PriceRange.BELOW_ONE => lstPosts.Where(post =>  post.Price < 1000000).ToList(),
 				PriceRange.ONE_TO_TWO => lstPosts.Where(post => post.Price > 1000000 && post.Price < 2000000).ToList(),
@@ -208,7 +207,6 @@ namespace HostelBanking.Services
 		{
 			return acreageRange switch
 			{
-				AcreageRange.ALL => lstPosts,
 				AcreageRange.BELOW_TWENTY => lstPosts.Where(post =>  post.Acreage < 20).ToList(),
 				AcreageRange.TWENTY_TO_FORTY => lstPosts.Where(post =>  post.Acreage >= 20 && post.Acreage < 40).ToList(),
 				AcreageRange.FORTY_TO_SIXTY => lstPosts.Where(post => post.Acreage >= 40 && post.Acreage < 60).ToList(),

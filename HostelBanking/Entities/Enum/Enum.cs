@@ -14,15 +14,15 @@
 	public enum PriceRange
 	{
 		ALL,
-		AGREEMENT,
 		BELOW_ONE,
 		ONE_TO_TWO,
 		TWO_TO_FOUR,
 		FOUR_TO_SIX,
 		SIX_TO_EIGHT,
 		EIGHT_TO_TEN,
-		ABOVE_TEN
-	}
+		ABOVE_TEN,
+		AGREEMENT
+    }
 	public enum AcreageRange
 	{
 		ALL,
