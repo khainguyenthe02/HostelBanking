@@ -87,7 +87,7 @@ namespace HostelBanking.Repositories
 			}
 			if (hostelType.DeleteFlag != null)
 			{
-				updateSql += " delete_flag=@DeletFlag ";
+				updateSql += " delete_flag=@DeleteFlag ";
 			}
 			else
 			{

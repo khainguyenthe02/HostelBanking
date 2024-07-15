@@ -23,12 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\Models\Comment\" />
-    <Folder Include="Entities\Models\Favorite\" />
-    <Folder Include="Entities\Models\Report\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 

@@ -8,5 +8,7 @@
 		IPostService PostService { get; }
 		IPostImageService PostImageService { get; }
 		IPayHistoryService PayHistoryService { get; }
+		ICommentService CommentService { get; }
+		IFavoriteService FavoriteService { get; }
 	}
 }

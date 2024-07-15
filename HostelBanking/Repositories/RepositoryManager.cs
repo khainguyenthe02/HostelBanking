@@ -10,7 +10,9 @@ namespace HostelBanking.Repositories
 		private readonly Lazy<IPostRepository> lazyPostRepository;
 		private readonly Lazy<IPostImageRepository> lazyPostImageRepository;
 		private readonly Lazy<IPayHistoryRepository> lazyPayHistoryRepository;
-		public RepositoryManager(IConfiguration configuration)
+		private readonly Lazy<ICommentRepository> lazyCommentRepository;
+		private readonly Lazy<IFavoriteRepository> lazyFavoriteRepository;
+        public RepositoryManager(IConfiguration configuration)
 		{
 			lazyHostelTypeRepository = new Lazy<IHostelTypeRepository>(() => new HostelTypeRepository(configuration));
 			lazyRoleRepository = new Lazy<IRoleRepository>(() => new RoleRepository(configuration));
@@ -18,6 +20,8 @@ namespace HostelBanking.Repositories
 			lazyPostRepository = new Lazy<IPostRepository>(() => new PostRepository(configuration));
 			lazyPostImageRepository = new Lazy<IPostImageRepository>(() => new PostImageRepository(configuration));
 			lazyPayHistoryRepository = new Lazy<IPayHistoryRepository>(() => new PayHistoryRepository(configuration));
+            lazyCommentRepository = new Lazy<ICommentRepository>(() => new CommentRepository(configuration));
+            lazyFavoriteRepository = new Lazy<IFavoriteRepository>(() => new FavoriteRepository(configuration));
         }
 		public IHostelTypeRepository HostelTypeRepository => lazyHostelTypeRepository.Value;
 		public IRoleRepository RoleRepository => lazyRoleRepository.Value;
@@ -30,5 +34,9 @@ namespace HostelBanking.Repositories
 		public IPostImageRepository PostImageRepository => lazyPostImageRepository.Value;
 
         public IPayHistoryRepository PayHistoryRepository => lazyPayHistoryRepository.Value;
+
+        public ICommentRepository CommentRepository => lazyCommentRepository.Value;
+
+        public IFavoriteRepository FavoriteRepository => lazyFavoriteRepository.Value;
     }
 }

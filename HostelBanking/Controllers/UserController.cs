@@ -44,7 +44,7 @@ namespace HostelBanking.Controllers
 		}
 
         [HttpGet("get-user-by-email/{email}")]
-        public async Task<IActionResult> GetUserByEmal(string email)
+        public async Task<IActionResult> GetUserByEmail(string email)
         {
             var userDto = await _serviceManager.UserService.GetByEmail(email);
             if (userDto is null)
@@ -233,7 +233,7 @@ namespace HostelBanking.Controllers
 
 
         [HttpPost("forgot-password")]
-        public async Task<IActionResult> UserForgotPassword([FromBody] forgotPassDto userforgotPassword, CancellationToken cancellationToken)
+        public async Task<IActionResult> UserForgotPassword([FromBody] ForgotPasswordDto userforgotPassword, CancellationToken cancellationToken)
         {
 
             if (!string.IsNullOrEmpty(userforgotPassword.ReNewPassword))

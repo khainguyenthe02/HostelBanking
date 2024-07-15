@@ -2,7 +2,7 @@
 
 namespace HostelBanking.Entities.DataTransferObjects.Account
 {
-    public class forgotPassDto
+    public class ForgotPasswordDto
     {
         public int? Id { get; set; }
         public string NewPassword { get; set; }

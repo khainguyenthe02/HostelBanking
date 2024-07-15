@@ -50,14 +50,14 @@ namespace HostelBanking.Controllers
         }
         [HttpPut("update")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateAsync([FromBody] HostelTypeUpdateDto hostelType, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateAsync([FromBody] PostImageUpdateDto postImage, CancellationToken cancellationToken)
         {
 			PermissionParam permission = new()
 			{
 				CancellationToken = cancellationToken
 
 			};
-			var result = await _serviceManager.HostelTypeService.Update(hostelType);
+			var result = await _serviceManager.PostImageService.Update(postImage);
 
             if (result) return Ok(result);
 
