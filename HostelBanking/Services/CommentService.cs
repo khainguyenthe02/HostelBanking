@@ -1,5 +1,8 @@
-﻿using HostelBanking.Entities.DataTransferObjects.Comment;
+﻿using HostelBanking.Entities.DataTransferObjects.Account;
+using HostelBanking.Entities.DataTransferObjects.Comment;
+using HostelBanking.Entities.DataTransferObjects.Favorite;
 using HostelBanking.Entities.DataTransferObjects.HostelType;
+using HostelBanking.Entities.DataTransferObjects.Post;
 using HostelBanking.Entities.Models.Comment;
 using HostelBanking.Entities.Models.HostelType;
 using HostelBanking.Repositories.Interfaces;
@@ -44,8 +47,9 @@ namespace HostelBanking.Services
         public async Task<List<CommentDto>> GetAll()
         {
             var result = await _repositoryManager.CommentRepository.GetAll();
-            return result.Adapt<List<CommentDto>>();
-        }
+			var resultDto = result.Adapt<List<CommentDto>>();
+			return await FilterData(resultDto);
+		}
 
         public async Task<CommentDto> GetById(int id)
         {
@@ -56,8 +60,9 @@ namespace HostelBanking.Services
         public async Task<List<CommentDto>> Search(CommentSearchDto search)
         {
             var result = await _repositoryManager.CommentRepository.Search(search);
-            return result.Adapt<List<CommentDto>>();
-        }
+			var resultDto = result.Adapt<List<CommentDto>>();
+			return await FilterData(resultDto);
+		}
 
         public async Task<bool> Update(CommentUpdateDto comment)
         {
@@ -65,5 +70,50 @@ namespace HostelBanking.Services
             var result = await _repositoryManager.CommentRepository.Update(hostelTypeInfo);
             return result;
         }
-    }
+		public async Task<List<CommentDto>> FilterData(List<CommentDto> lst)
+		{
+			if (lst?.Count > 0)
+			{
+				var userIdLst = lst.Where(x => x.AccountId.HasValue).Select(x => x.AccountId.GetValueOrDefault()).ToList();
+				if (userIdLst.Count > 0)
+				{
+					var searchUser = new UserSearchDto()
+					{
+						IdLst = userIdLst
+					};
+					var users = (await _repositoryManager.UserRepository.Search(searchUser))?.ToDictionary(x => x.Id, x => x.FullName);
+					if (users?.Count > 0)
+					{
+						foreach (var item in lst)
+						{
+							if (item.AccountId.HasValue && users.ContainsKey(item.AccountId.Value))
+							{
+								item.AccountName = users[item.AccountId.Value];
+							}
+						}
+					}
+				}
+				var postIdLst = lst.Where(x => x.PostId.HasValue).Select(x => x.PostId.GetValueOrDefault()).ToList();
+				if (postIdLst.Count > 0)
+				{
+					var searchPost = new PostSearchDto()
+					{
+						IdLst = userIdLst
+					};
+					var posts = (await _repositoryManager.PostRepository.Search(searchPost))?.ToDictionary(x => x.Id, x => x.Title);
+					if (posts?.Count > 0)
+					{
+						foreach (var item in lst)
+						{
+							if (item.PostId.HasValue && posts.ContainsKey(item.PostId.Value))
+							{
+								item.PostTitle = posts[item.PostId.Value];
+							}
+						}
+					}
+				}
+			}
+			return lst;
+		}
+	}
 }

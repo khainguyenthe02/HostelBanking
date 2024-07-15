@@ -128,6 +128,7 @@ namespace HostelBanking.Controllers
 				}
 				return BadRequest(MessageError.LoginError + $". Bạn đã nhập sai mật khẩu {user.InvalidPasswordCount} lần.");
 			}
+			user.InvalidPasswordCount = 0;
 			// Đăng nhập thành công
 			await _serviceManager.UserService.UpdateUser(user);
             var claims = new[]
