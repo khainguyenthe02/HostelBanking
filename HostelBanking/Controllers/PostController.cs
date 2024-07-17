@@ -31,7 +31,17 @@ namespace HostelBanking.Controllers
 			var created = await _serviceManager.PostService.Create(postDto);
 			if (created!= null)
 			{
-			return Ok(created);	
+
+                List<PostDto> result = new();
+                result = await _serviceManager.PostService.GetNewest();
+                var count = result.Count();
+                if (count > 0)
+                {
+                    created.Id=(int)result.First().Id;
+                    return Ok(created);
+                }
+
+               	
 			}
 			return BadRequest(MessageError.ErrorCreate);
 		}
