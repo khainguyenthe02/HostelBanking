@@ -33,4 +33,10 @@
 		EIGHTY_TO_HUNDRED,
 		ABOVE_HUNDRED
 	}
+	public enum ReportStatus
+	{
+		PENDING,
+		ACCEPTED,
+		REJECTED
+	}
 }

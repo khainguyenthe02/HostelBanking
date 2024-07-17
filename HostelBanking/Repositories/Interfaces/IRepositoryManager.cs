@@ -10,5 +10,6 @@
 		IPayHistoryRepository PayHistoryRepository { get; }
 		ICommentRepository CommentRepository { get; }
 		IFavoriteRepository FavoriteRepository { get; }
+		IReportRepository ReportRepository { get; }
 	}
 }
