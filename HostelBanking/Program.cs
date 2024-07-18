@@ -13,6 +13,8 @@ using System.Reflection;
 using HostelBanking.Entities.DataTransferObjects.Post;
 using HostelBanking.Entities.Models.Post;
 using Mapster;
+using HostelBanking.Entities.DataTransferObjects.Favorite;
+using HostelBanking.Entities.Models.Favorite;
 
 var builder = WebApplication.CreateBuilder(args);
 // Đọc cấu hình từ appsettings.json

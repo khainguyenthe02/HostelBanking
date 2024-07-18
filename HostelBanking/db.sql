@@ -105,7 +105,7 @@ CREATE TABLE favorite (
     CONSTRAINT fk_favorite_post FOREIGN KEY (post_id) REFERENCES post(id),
     CONSTRAINT fk_favorite_account FOREIGN KEY (account_id) REFERENCES account(id)
 );
-
+select * from favorite
 
 CREATE TABLE pay_history (
     id INT IDENTITY(1,1) PRIMARY KEY,
