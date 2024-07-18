@@ -39,4 +39,9 @@
 		ACCEPTED,
 		REJECTED
 	}
+	public enum PayHistoryStatus
+	{
+		CREATE,
+		UPDATE
+	}
 }
