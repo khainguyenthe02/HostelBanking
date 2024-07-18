@@ -72,8 +72,9 @@ namespace HostelBanking.Services
                 post.Adapt<PostDto>().Images=post.Images.Split(',').ToList();
             });
            
-            return result.Adapt<List<PostDto>>();
-        }
+            var resultDto = result.Adapt<List<PostDto>>();
+			return await FilterData(resultDto);
+		}
 
         public async Task<List<PostDto>> GetMostView()
         {
@@ -83,8 +84,9 @@ namespace HostelBanking.Services
                 post.Adapt<PostDto>().Images = post.Images.Split(',').ToList();
             });
 
-            return result.Adapt<List<PostDto>>();
-        }
+			var resultDto = result.Adapt<List<PostDto>>();
+			return await FilterData(resultDto);
+		}
 
         public async Task<PostDto> GetById(int id)
         {

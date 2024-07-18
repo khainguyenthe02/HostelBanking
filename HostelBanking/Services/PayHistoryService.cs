@@ -60,14 +60,16 @@ namespace HostelBanking.Services
         public async Task<List<PayHistoryDto>> GetAll()
         {
             var result = await _repositoryManager.PayHistoryRepository.GetAll();
-            return result.Adapt<List<PayHistoryDto>>();
-        }
+			var resultDto = result.Adapt<List<PayHistoryDto>>();
+			return await FilterData(resultDto);
+		}
 
         public async Task<PayHistoryDto> GetById(int id)
         {
             var result = await _repositoryManager.PayHistoryRepository.GetById(id);
-            return result.Adapt<PayHistoryDto>();
-        }
+            var resultDto =  result.Adapt<PayHistoryDto>();
+			return (await FilterData(new() { resultDto })).FirstOrDefault();
+		}
 
         public async Task<List<PayHistoryDto>> Search(PayHistorySearchDto search)
         {

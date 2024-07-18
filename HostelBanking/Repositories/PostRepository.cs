@@ -88,11 +88,11 @@ namespace HostelBanking.Repositories
             {
                 whereSql += " AND account_id = @AccountId";
             }
-            if (!string.IsNullOrEmpty(search.Title))
-            {
-                whereSql += " AND title LIKE @Title";
-            }
-            if (search.Price != null)
+			if (!string.IsNullOrEmpty(search.Title))
+			{
+				whereSql += $" AND title LIKE '%{search.Title}%'";
+			}
+			if (search.Price != null)
             {
                 whereSql += " AND price = @Price";
             }

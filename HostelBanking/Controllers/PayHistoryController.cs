@@ -2,6 +2,7 @@
 using HostelBanking.Entities.Const;
 using HostelBanking.Entities.DataTransferObjects.HostelType;
 using HostelBanking.Entities.DataTransferObjects.PayHistory;
+using HostelBanking.Entities.DataTransferObjects.Post;
 using HostelBanking.Entities.DataTransferObjects.PostImage;
 using HostelBanking.Services;
 using HostelBanking.Services.Interfaces;
@@ -50,7 +51,25 @@ namespace HostelBanking.Controllers
             if (result == null) return Ok(new List<PayHistoryDto>());
             return Ok(result);
         }
-        [HttpPut("update")]
+		[HttpPost("search-pay-history-by-post-title")]
+		public async Task<IActionResult> SearchPostByTitle([FromBody] string search, CancellationToken cancellationToken)
+		{
+			List<PayHistoryDto> result = new();
+            var post = new PostSearchDto
+            {
+                Title = search,
+            };
+            var resultPost = await _serviceManager.PostService.Search(post);
+            if (resultPost != null)
+            {
+				var allPayHistories = await _serviceManager.PayHistoryService.GetAll();
+				result = allPayHistories.Where(ph => resultPost.Any(rp => rp.Id == ph.PostId)).ToList();
+			}
+			
+			if (result == null) return Ok(new List<PayHistoryDto>());
+			return Ok(result);
+		}
+		[HttpPut("update")]
         //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateAsync([FromBody] PayHistoryUpdateDto payHistory, CancellationToken cancellationToken)
         {
