@@ -1,5 +1,10 @@
-﻿using HostelBanking.Entities.DataTransferObjects.PayHistory;
+﻿using HostelBanking.Entities.DataTransferObjects.Account;
+using HostelBanking.Entities.DataTransferObjects.Favorite;
+using HostelBanking.Entities.DataTransferObjects.PayHistory;
+using HostelBanking.Entities.DataTransferObjects.Post;
 using HostelBanking.Entities.DataTransferObjects.PostImage;
+using HostelBanking.Entities.Enum;
+using HostelBanking.Entities.Models.Favorite;
 using HostelBanking.Entities.Models.PayHistory;
 using HostelBanking.Entities.Models.PostImages;
 using HostelBanking.Repositories.Interfaces;
@@ -20,7 +25,18 @@ namespace HostelBanking.Services
         {
             var postImageInfo = payHistory.Adapt<PayHistory>();
             var result = await _repositoryManager.PayHistoryRepository.Create(postImageInfo);
-            return result;
+            if (result)
+            {
+                var postId = postImageInfo.PostId;
+                var post = await _repositoryManager.PostRepository.GetById(postId);
+                if (post != null)
+                {
+                    post.PaymentType = (int)PaymentStatus.PAID;
+                    var resultDto = await _repositoryManager.PostRepository.Update(post);
+                    return resultDto;
+                }
+            }
+            return false;
         }
 
         public async Task<bool> Delete(int id)
@@ -53,14 +69,63 @@ namespace HostelBanking.Services
             return result.Adapt<PayHistoryDto>();
         }
 
-        public Task<List<PayHistoryDto>> Search(PayHistorySearchDto search)
+        public async Task<List<PayHistoryDto>> Search(PayHistorySearchDto search)
         {
-            throw new NotImplementedException();
+            var result = await _repositoryManager.PayHistoryRepository.Search(search);
+            var resultDto = result.Adapt<List<PayHistoryDto>>();
+            return await FilterData(resultDto);
         }
 
-        public Task<bool> Update(PayHistoryUpdateDto payHistory)
+        public async Task<bool> Update(PayHistoryUpdateDto payHistory)
         {
-            throw new NotImplementedException();
+            var hostelTypeInfo = payHistory.Adapt<PayHistory>();
+            var result = await _repositoryManager.PayHistoryRepository.Update(hostelTypeInfo);
+            return result;
+        }
+        public async Task<List<PayHistoryDto>> FilterData(List<PayHistoryDto> lst)
+        {
+            if (lst?.Count > 0)
+            {
+                var userIdLst = lst.Where(x => x.AccountId.HasValue).Select(x => x.AccountId.GetValueOrDefault()).ToList();
+                if (userIdLst.Count > 0)
+                {
+                    var searchUser = new UserSearchDto()
+                    {
+                        IdLst = userIdLst
+                    };
+                    var users = (await _repositoryManager.UserRepository.Search(searchUser))?.ToDictionary(x => x.Id, x => x.FullName);
+                    if (users?.Count > 0)
+                    {
+                        foreach (var item in lst)
+                        {
+                            if (item.AccountId.HasValue && users.ContainsKey(item.AccountId.Value))
+                            {
+                                item.AccountName = users[item.AccountId.Value];
+                            }
+                        }
+                    }
+                }
+                var postIdLst = lst.Where(x => x.PostId.HasValue).Select(x => x.PostId.GetValueOrDefault()).ToList();
+                if (postIdLst.Count > 0)
+                {
+                    var searchPost = new PostSearchDto()
+                    {
+                        IdLst = postIdLst
+                    };
+                    var posts = (await _repositoryManager.PostRepository.Search(searchPost))?.ToDictionary(x => x.Id, x => x.Title);
+                    if (posts?.Count > 0)
+                    {
+                        foreach (var item in lst)
+                        {
+                            if (item.PostId.HasValue && posts.ContainsKey(item.PostId.Value))
+                            {
+                                item.PostTitle = posts[item.PostId.Value];
+                            }
+                        }
+                    }
+                }
+            }
+            return lst;
         }
     }
 }

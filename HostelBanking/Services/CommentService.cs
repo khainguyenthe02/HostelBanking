@@ -54,7 +54,8 @@ namespace HostelBanking.Services
         public async Task<CommentDto> GetById(int id)
         {
             var result = await _repositoryManager.CommentRepository.GetById(id);
-            return result.Adapt<CommentDto>();
+            var resultDto = result.Adapt<CommentDto>();
+             return (await FilterData(new() { resultDto })).FirstOrDefault();
         }
 
         public async Task<List<CommentDto>> Search(CommentSearchDto search)
@@ -98,7 +99,7 @@ namespace HostelBanking.Services
 				{
 					var searchPost = new PostSearchDto()
 					{
-						IdLst = userIdLst
+						IdLst = postIdLst
 					};
 					var posts = (await _repositoryManager.PostRepository.Search(searchPost))?.ToDictionary(x => x.Id, x => x.Title);
 					if (posts?.Count > 0)

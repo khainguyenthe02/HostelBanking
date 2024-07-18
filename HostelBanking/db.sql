@@ -100,13 +100,12 @@ CREATE TABLE favorite (
     id INT IDENTITY(1,1) PRIMARY KEY,
     post_id INT NOT NULL,
     account_id INT NOT NULL,
-    status bit,
     create_date datetime,
 	delete_flag bit,
     CONSTRAINT fk_favorite_post FOREIGN KEY (post_id) REFERENCES post(id),
     CONSTRAINT fk_favorite_account FOREIGN KEY (account_id) REFERENCES account(id)
 );
-go
+
 
 CREATE TABLE pay_history (
     id INT IDENTITY(1,1) PRIMARY KEY,

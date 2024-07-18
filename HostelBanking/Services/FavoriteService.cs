@@ -97,7 +97,7 @@ namespace HostelBanking.Services
 				{
 					var searchPost = new PostSearchDto()
 					{
-						IdLst = userIdLst
+						IdLst = postIdLst
 					};
 					var posts = (await _repositoryManager.PostRepository.Search(searchPost))?.ToDictionary(x => x.Id, x => x.Title);
 					if (posts?.Count > 0)

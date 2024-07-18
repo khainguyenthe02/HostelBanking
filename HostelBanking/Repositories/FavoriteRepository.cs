@@ -19,8 +19,8 @@ namespace HostelBanking.Repositories
         {
             var result =
             await _dbService.EditData(
-              "INSERT INTO favorite (account_id, post_id, status, create_date, delete_flag) " +
-                "VALUES (@AccountId, @PostId, @Status, @CreateDate,  @DeleteFlag)",
+              "INSERT INTO favorite (account_id, post_id, create_date, delete_flag) " +
+                "VALUES (@AccountId, @PostId, @CreateDate,  @DeleteFlag)",
               favorite);
             if (result > 0)
             {
@@ -68,10 +68,6 @@ namespace HostelBanking.Repositories
             {
                 whereSql += " AND account_id = @AccountId";
             }
-            if (search.Status != null)
-            {
-                whereSql += " AND status = @Status";
-            }
             if (search.CreateDate != null)
             {
                 whereSql += " AND create_date > @CreateDate";
@@ -92,10 +88,6 @@ namespace HostelBanking.Repositories
             if (favorite.AccountId != null)
             {
                 updateSql += " account_id=@AccountId, ";
-            }
-            if (favorite.Status != null)
-            {
-                updateSql += " content=@Content, ";
             }
             if (favorite.DeleteFlag != null)
             {

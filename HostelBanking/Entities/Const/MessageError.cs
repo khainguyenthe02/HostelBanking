@@ -23,6 +23,8 @@
 
         public const string PostImageError = "Hình ảnh không khả dụng";
 
+		public const string UserOrPostNotExist = "Bài viết hoặc người dùng không tồn tại";
+
 
     }
 }

@@ -33,6 +33,12 @@ namespace HostelBanking.Controllers
         //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateAsync([FromBody] CommentCreateDto comment, CancellationToken cancellationToken)
         {
+            var postId = comment.PostId;
+            var post = await _serviceManager.PostService.GetById(postId);
+            if (post == null)
+            {
+                return BadRequest(MessageError.UserOrPostNotExist);
+            }
             var result = await _serviceManager.CommentService.Create(comment);
             if (result) return Ok(result);
 

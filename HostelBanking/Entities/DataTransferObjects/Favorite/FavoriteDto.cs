@@ -8,7 +8,6 @@
         public int? AccountId { get; set; }
         public string AccountName { get; set; }
         public DateTime CreateDate { get; set; }
-        public bool Status { get; set; }
         public bool DeleteFlag { get; set; }
 
     }

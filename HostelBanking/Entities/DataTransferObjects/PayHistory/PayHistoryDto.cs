@@ -9,7 +9,7 @@
         public double? Price { get; set; }
         public bool? DeleteFlag { get; set; }
         public int? PostId { get; set; }
-        public string PostName { get; set; }
+        public string PostTitle { get; set; }
         public int? AccountId { get; set; }
         public string AccountName { get; set; }
     }
