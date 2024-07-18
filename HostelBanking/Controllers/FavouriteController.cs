@@ -48,7 +48,7 @@ namespace HostelBanking.Controllers
                 var pageIndex = search.PageNumber;
                 int pageSize = (int)search.PageSize;
                 var numberPage = Math.Ceiling((float)(count / pageSize));
-                int start = (pageIndex - 1) * pageSize;
+                int start = (int)(pageIndex - 1) * pageSize;
                 var favorites = result.Skip(start).Take(pageSize);
                 return Ok(new
                 {
