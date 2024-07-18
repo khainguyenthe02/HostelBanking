@@ -4,6 +4,5 @@
     {
         public int PostId { get; set; }
         public int AccountId { get; set; }
-        public bool DeleteFlag { get; set; }
     }
 }
