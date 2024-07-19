@@ -25,6 +25,8 @@
 
 		public const string UserOrPostNotExist = "Bài viết hoặc người dùng không tồn tại";
 
+		public const string PostIsFavorited = "Bài viết đã được yêu thích trước đó, không thể tạo mới";
+
 
     }
 }

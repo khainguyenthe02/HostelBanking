@@ -2,6 +2,7 @@
 using HostelBanking.Entities.DataTransferObjects.Comment;
 using HostelBanking.Entities.DataTransferObjects.Favorite;
 using HostelBanking.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,6 +33,16 @@ namespace HostelBanking.Controllers
         //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateAsync([FromBody] FavoriteCreateDto favorite, CancellationToken cancellationToken)
         {
+            FavoriteSearchDto search = new()
+            {
+                AccountId = favorite.AccountId,
+                PostId = favorite.PostId,
+            };
+            var favoriteExist = await _serviceManager.FavoriteService.Search(search);
+            if (favoriteExist != null)
+            {
+                return BadRequest(MessageError.PostIsFavorited);
+            }
             var result = await _serviceManager.FavoriteService.Create(favorite);
             if (result) return Ok(result);
 
@@ -60,6 +71,16 @@ namespace HostelBanking.Controllers
                 });
             }
             return Ok(new List<FavoriteDto>());
+        }
+        [HttpPut("update")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateAsync([FromBody] FavoriteUpdateDto favorite, CancellationToken cancellationToken)
+        {
+            var result = await _serviceManager.FavoriteService.Update(favorite);
+
+            if (result) return Ok(result);
+
+            return BadRequest(MessageError.ErrorUpdate);
         }
     }
 }

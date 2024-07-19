@@ -101,6 +101,10 @@ namespace HostelBanking.Repositories
 			{
 				updateSql += " count_reports=@CountReports, ";
 			}
+			if (report.ReportStatus != null)
+			{
+				updateSql += " report_status=@ReportStatus, ";
+			}
 			if (report.CreateDate != null)
 			{
 				updateSql += " create_date=@CreateDate, ";

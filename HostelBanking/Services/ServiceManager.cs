@@ -13,6 +13,7 @@ namespace HostelBanking.Services
 		private readonly Lazy<IPayHistoryService> lazyPayHistoryService;
 		private readonly Lazy<ICommentService> lazyCommentService;
 		private readonly Lazy<IFavoriteService> lazyFavoriteService;
+		private readonly Lazy<IReportService> lazyReportService;
         public ServiceManager (IRepositoryManager repositoryManager, IConfiguration configuration,
 								IWebHostEnvironment webHostEnvironment)
 		{
@@ -24,6 +25,7 @@ namespace HostelBanking.Services
             lazyPayHistoryService = new Lazy<IPayHistoryService>(() => new PayHistoryService(repositoryManager));
 			lazyCommentService = new Lazy<ICommentService>(()  => new CommentService(repositoryManager));
             lazyFavoriteService = new Lazy<IFavoriteService>(()  => new FavoriteService(repositoryManager));
+			lazyReportService = new Lazy<IReportService>(() => new ReportService(repositoryManager));
 
         }
 		public IHostelTypeService HostelTypeService => lazyHostelTypeService.Value;
@@ -41,5 +43,7 @@ namespace HostelBanking.Services
         public ICommentService CommentService => lazyCommentService.Value;
 
         public IFavoriteService FavoriteService => lazyFavoriteService.Value;
+
+        public IReportService ReportService => lazyReportService.Value;
     }
 }

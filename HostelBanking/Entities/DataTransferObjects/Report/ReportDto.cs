@@ -3,7 +3,7 @@
 	public class ReportDto
 	{
 		public int? Id { get; set; }
-		public List<string> Detail { get; set; }
+		public string Detail { get; set; }
 		public int? ReportStatus { get; set; }
 		public int? CountReports { get; set; }
 		public DateTime CreateDate { get; set; }

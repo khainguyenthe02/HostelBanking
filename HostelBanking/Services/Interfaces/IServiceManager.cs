@@ -10,5 +10,6 @@
 		IPayHistoryService PayHistoryService { get; }
 		ICommentService CommentService { get; }
 		IFavoriteService FavoriteService { get; }
+		IReportService ReportService { get; }
 	}
 }

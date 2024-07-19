@@ -114,7 +114,7 @@ namespace HostelBanking.Repositories
             }
             if (!string.IsNullOrEmpty(search.DescriptionPost))
             {
-                whereSql += " AND description_post LIKE @DescriptionPost";
+                whereSql += $" AND description_post LIKE '%{search.DescriptionPost}'";
             }
             if (search.CreateDate != null)
             {
