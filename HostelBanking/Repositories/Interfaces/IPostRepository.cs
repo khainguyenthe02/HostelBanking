@@ -16,5 +16,6 @@ namespace HostelBanking.Repositories.Interfaces
 		Task<bool> Delete(int id);
 		Task<Post> GetById(int id);
 		Task<List<Post>> Search(PostSearchDto search);
-	}
+		Task<List<Post>> SearchManager(PostSearchDto search);
+    }
 }

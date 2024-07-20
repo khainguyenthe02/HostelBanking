@@ -34,6 +34,23 @@ namespace HostelBanking.Controllers
             }
             return NoContent();
         }
+
+
+        [HttpGet("getLastPayOfPost")]
+        public async Task<IActionResult> GetlastPayOfPost(int id,CancellationToken cancellationToken)
+        {
+            List<PayHistoryDto> result = new();
+            result = await _serviceManager.PayHistoryService.GetlastPayOfPost(id);
+            
+            var count = result.Count();
+            if (count > 0)
+            {
+                return Ok(result);
+            }
+            return Ok(new List<PayHistoryDto>());
+        }
+
+
         [HttpPost("create")]
         //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateAsync([FromBody] PayHistoryCreateDto payHistory, CancellationToken cancellationToken)

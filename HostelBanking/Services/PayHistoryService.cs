@@ -78,6 +78,15 @@ namespace HostelBanking.Services
             return await FilterData(resultDto);
         }
 
+
+        public async Task<List<PayHistoryDto>> GetlastPayOfPost(int id)
+        {
+            var result = await _repositoryManager.PayHistoryRepository.GetlastPayOfPost(id);
+            var resultDto = result.Adapt<List<PayHistoryDto>>();
+            return await FilterData(resultDto);
+        }
+
+
         public async Task<bool> Update(PayHistoryUpdateDto payHistory)
         {
             var hostelTypeInfo = payHistory.Adapt<PayHistory>();

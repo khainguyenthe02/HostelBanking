@@ -11,5 +11,6 @@ namespace HostelBanking.Services.Interfaces
         Task<PayHistoryDto> GetById(int id);
         Task<bool> Update(PayHistoryUpdateDto payHistory);
         Task<List<PayHistoryDto>> Search(PayHistorySearchDto search);
+        Task<List<PayHistoryDto>> GetlastPayOfPost(int id);
     }
 }

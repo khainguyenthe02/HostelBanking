@@ -50,12 +50,12 @@ namespace HostelBanking.Repositories
         }
         public async Task<List<Post>> GetNewest()
         {
-            var postList = await _dbService.GetAll<Post>("SELECT Top 10 * FROM post Where delete_flag = 0 ORDER BY modified_date DESC", new { });
+            var postList = await _dbService.GetAll<Post>("SELECT Top 10 * FROM post Where delete_flag = 0 and payment_type=1 ORDER BY modified_date DESC", new { });
             return postList;
         }
         public async Task<List<Post>> GetMostView()
         {
-            var postList = await _dbService.GetAll<Post>("SELECT Top 10 * FROM post Where delete_flag = 0 ORDER BY countViews DESC", new { });
+            var postList = await _dbService.GetAll<Post>("SELECT Top 10 * FROM post Where delete_flag = 0 and payment_type=1 ORDER BY countViews DESC", new { });
             return postList;
         }
 
@@ -75,7 +75,7 @@ namespace HostelBanking.Repositories
         public async Task<List<Post>> Search(PostSearchDto search)
         {
             var selectSql = "SELECT * FROM post ";
-			var whereSql = " WHERE delete_flag = 0";
+			var whereSql = " WHERE delete_flag = 0 AND payment_type=1";
             if (search.Id != null)
             {
                 whereSql += " AND id = @Id";
@@ -144,6 +144,81 @@ namespace HostelBanking.Repositories
 
 			return postList;
 		}
+
+
+
+        public async Task<List<Post>> SearchManager(PostSearchDto search)
+        {
+            var selectSql = "SELECT * FROM post ";
+            var whereSql = " WHERE delete_flag = 0";
+            if (search.Id != null)
+            {
+                whereSql += " AND id = @Id";
+            }
+            if (search.HostelTypeId != null)
+            {
+                whereSql += " AND hostel_type_id = @HostelTypeId";
+            }
+            if (search.AccountId != null)
+            {
+                whereSql += " AND account_id = @AccountId";
+            }
+            if (!string.IsNullOrEmpty(search.Title))
+            {
+                whereSql += $" AND title LIKE '%{search.Title}%'";
+            }
+            if (search.Price != null)
+            {
+                whereSql += " AND price = @Price";
+            }
+            if (search.Acreage != null)
+            {
+                whereSql += " AND acreage = @Acreage";
+            }
+            if (!string.IsNullOrEmpty(search.District))
+            {
+                whereSql += " AND district LIKE @District";
+            }
+            if (!string.IsNullOrEmpty(search.Ward))
+            {
+                whereSql += " AND ward LIKE @Ward";
+            }
+            if (!string.IsNullOrEmpty(search.Street))
+            {
+                whereSql += " AND street LIKE @Street";
+            }
+            if (!string.IsNullOrEmpty(search.DescriptionPost))
+            {
+                whereSql += $" AND description_post LIKE '%{search.DescriptionPost}'";
+            }
+            if (search.CreateDate != null)
+            {
+                whereSql += " AND create_date >= @CreateDate";
+            }
+            if (!string.IsNullOrEmpty(search.PhoneNumber))
+            {
+                whereSql += " AND phone_number = @PhoneNumber";
+            }
+            if (!string.IsNullOrEmpty(search.OwnerHouse))
+            {
+                whereSql += " AND owner_house LIKE @OwnerHouse";
+            }
+            if (search.ModifiedDate != null)
+            {
+                whereSql += " AND modified_date >= @ModifiedDate";
+            }
+            if (search.PaymentType != null)
+            {
+                whereSql += " AND payment_type = @PaymentType";
+            }
+            if (search.IdLst != null && search.IdLst.Any())
+            {
+                whereSql += " and id IN @IdLst";
+            }
+            var postList = await _dbService.GetAll<Post>(selectSql + whereSql, search);
+
+            return postList;
+        }
 
         public async Task<bool> Update(Post post)
         {

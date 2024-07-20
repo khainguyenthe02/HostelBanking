@@ -13,5 +13,6 @@ namespace HostelBanking.Repositories.Interfaces
         Task<bool> Delete(int id);
         Task<PayHistory> GetById(int id);
         Task<List<PayHistory>> Search(PayHistorySearchDto search);
+        Task<List<PayHistory>> GetlastPayOfPost(int id);
     }
 }

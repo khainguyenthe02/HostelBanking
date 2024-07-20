@@ -4,6 +4,7 @@ using HostelBanking.Repositories.Interfaces;
 using HostelBanking.Entities.Models.PayHistory;
 using HostelBanking.Entities.DataTransferObjects.PayHistory;
 using HostelBanking.Entities.Models.PostImages;
+using HostelBanking.Entities.Models.Post;
 
 namespace HostelBanking.Repositories
 {
@@ -47,6 +48,12 @@ namespace HostelBanking.Repositories
         public async Task<PayHistory> GetById(int id)
         {
             var payHistory = await _dbService.GetAsync<PayHistory>("SELECT * FROM pay_history WHERE id = @Id", new { Id = id });
+            return payHistory;
+        }
+
+        public async Task<List<PayHistory>> GetlastPayOfPost(int id)
+        {
+            var payHistory = await _dbService.GetAll<PayHistory>("SELECT Top 1 * FROM pay_history WHERE post_id = @Id order by pay_date DESC", new { Id = id });
             return payHistory;
         }
 

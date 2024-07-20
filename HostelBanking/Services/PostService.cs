@@ -137,6 +137,24 @@ namespace HostelBanking.Services
 			return await FilterData(resultDto);
         }
 
+
+
+        public async Task<List<PostDto>> SearchManager(PostSearchDto search)
+        {
+            var result = await _repositoryManager.PostRepository.SearchManager(search);
+            var resultDto = result.Adapt<List<PostDto>>();
+            if (search.PriceRange.HasValue)
+            {
+                resultDto = FilterByPriceRange(resultDto, (PriceRange)search.PriceRange.Value);
+            }
+            if (search.AcreageRange.HasValue)
+            {
+                resultDto = FilterByAcreageRange(resultDto, (AcreageRange)search.AcreageRange.Value);
+            }
+            return await FilterData(resultDto);
+        }
+
+
         public async Task<bool> Update(PostUpdateDto post)
         {
             var postInfo = post.Adapt<Post>();
