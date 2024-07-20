@@ -41,7 +41,7 @@ namespace HostelBanking.Controllers
             var favoriteExist = await _serviceManager.FavoriteService.Search(search);
             if (favoriteExist != null)
             {
-                if(favoriteExist.Any(x => x.DeleteFlag == true))
+                if(favoriteExist.Any(x => x.DeleteFlag == false))
                 {
 					return BadRequest(MessageError.PostIsFavorited);
 				}
@@ -79,6 +79,7 @@ namespace HostelBanking.Controllers
         //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateAsync([FromBody] FavoriteUpdateDto favorite, CancellationToken cancellationToken)
         {
+
             var result = await _serviceManager.FavoriteService.Update(favorite);
 
             if (result) return Ok(result);
