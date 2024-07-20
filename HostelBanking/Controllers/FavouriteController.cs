@@ -41,7 +41,10 @@ namespace HostelBanking.Controllers
             var favoriteExist = await _serviceManager.FavoriteService.Search(search);
             if (favoriteExist != null)
             {
-                return BadRequest(MessageError.PostIsFavorited);
+                if(favoriteExist.Any(x => x.DeleteFlag == true))
+                {
+					return BadRequest(MessageError.PostIsFavorited);
+				}
             }
             var result = await _serviceManager.FavoriteService.Create(favorite);
             if (result) return Ok(result);
