@@ -78,7 +78,7 @@ namespace HostelBanking.Services
 
         public async Task<List<PostDto>> GetMostView()
         {
-            var result = await _repositoryManager.PostRepository.GetNewest();
+            var result = await _repositoryManager.PostRepository.GetMostView();
             result.ForEach((post) =>
             {
                 post.Adapt<PostDto>().Images = post.Images.Split(',').ToList();
