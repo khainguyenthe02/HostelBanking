@@ -58,7 +58,7 @@ namespace HostelBanking.Services
 
         public async Task<List<FavoriteDto>> Search(FavoriteSearchDto search)
         {
-            var result = await _repositoryManager.FavoriteRepository.Search(search);
+            var result = await _repositoryManager.FavoriteRepository.Search(search);    
 			var resultDto = result.Adapt<List<FavoriteDto>>();
 			return await FilterData(resultDto);
 		}

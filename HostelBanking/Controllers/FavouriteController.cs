@@ -56,23 +56,29 @@ namespace HostelBanking.Controllers
         {
             List<FavoriteDto> result = new();
             result = await _serviceManager.FavoriteService.Search(search);
-            var count = result.Count();
-            if (count > 0)
-            {
-                var pageIndex = search.PageNumber;
-                int pageSize = (int)search.PageSize;
-                var numberPage = Math.Ceiling((float)(count / pageSize));
-                int start = (int)(pageIndex - 1) * pageSize;
-                var favorites = result.Skip(start).Take(pageSize);
-                return Ok(new
-                {
-                    data = favorites,
-                    totalItem = result.Count,
-                    numberPage,
-                    search.PageNumber,
-                    search.PageSize
-                });
-            }
+			var count = result.Count();
+			if (count > 0)
+			{
+				foreach (FavoriteDto favorite in result)
+				{
+					var postDto = await _serviceManager.PostService.GetById((int)favorite.PostId);
+					favorite.Post = postDto;
+				};
+				var pageIndex = search.PageNumber;
+				int pageSize = (int)search.PageSize;
+				var numberPage = Math.Ceiling((float)(count / pageSize));
+				int start = (int)(pageIndex - 1) * pageSize;
+				var favorites = result.Skip(start).Take(pageSize);
+				return Ok(new
+				{
+					data = favorites,
+					totalItem = result.Count,
+					numberPage,
+					search.PageNumber,
+					search.PageSize
+				});
+			}
+
             return Ok(new List<FavoriteDto>());
         }
         [HttpPut("update")]

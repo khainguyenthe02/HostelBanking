@@ -1,4 +1,6 @@
-﻿namespace HostelBanking.Entities.DataTransferObjects.Favorite
+﻿using HostelBanking.Entities.DataTransferObjects.Post;
+
+namespace HostelBanking.Entities.DataTransferObjects.Favorite
 {
     public class FavoriteDto
     {
@@ -9,6 +11,7 @@
         public string AccountName { get; set; }
         public DateTime CreateDate { get; set; }
         public bool DeleteFlag { get; set; }
+        public PostDto Post { get; set; }
 
     }
 }
