@@ -90,11 +90,11 @@ CREATE TABLE report (
     report_status INT NOT NULL,
     detail NVARCHAR(MAX) NOT NULL,
     create_date DATETIME NOT NULL,
-    count_reports int ,
 	delete_flag bit,
     CONSTRAINT fk_report_account FOREIGN KEY (account_id) REFERENCES account(id),
     CONSTRAINT fk_report_post FOREIGN KEY (post_id) REFERENCES post(id)
 );
+drop table report
 go
 CREATE TABLE favorite (
     id INT IDENTITY(1,1) PRIMARY KEY,

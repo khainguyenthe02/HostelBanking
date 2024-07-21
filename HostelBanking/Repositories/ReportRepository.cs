@@ -19,8 +19,8 @@ namespace HostelBanking.Repositories
 		{
 			var result =
 			await _dbService.EditData(
-			  "INSERT INTO report (account_id, post_id, report_status, detail, count_reports, create_date, delete_flag) " +
-				"VALUES (@AccountId, @PostId, @ReportStatus, @Detail, @CountReports, @CreateDate, @DeleteFlag)",
+			  "INSERT INTO report (account_id, post_id, report_status, detail,, create_date, delete_flag) " +
+				"VALUES (@AccountId, @PostId, @ReportStatus, @Detail, @CreateDate, @DeleteFlag)",
 			  report);
 			if (result > 0)
 			{
@@ -72,10 +72,6 @@ namespace HostelBanking.Repositories
 			{
 				whereSql += " AND report_status = @ReportStatus";
 			}
-			if (search.CountReports != null)
-			{
-				whereSql += " AND count_reports = @CountReports";
-			}
 
 			var hostelTypeLst = await _dbService.GetAll<Report>(selectSql + whereSql, search);
 
@@ -96,10 +92,6 @@ namespace HostelBanking.Repositories
 			if (report.Detail != null)
 			{
 				updateSql += " detail=@Detail, ";
-			}
-			if (report.CountReports != null)
-			{
-				updateSql += " count_reports=@CountReports, ";
 			}
 			if (report.ReportStatus != null)
 			{

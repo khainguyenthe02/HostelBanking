@@ -33,7 +33,7 @@ namespace HostelBanking.Controllers
 			{
 
                 List<PostDto> result = new();
-                result = await _serviceManager.PostService.GetNewest();
+                result = await _serviceManager.PostService.GetAll();
                 var count = result.Count();
                 if (count > 0)
                 {

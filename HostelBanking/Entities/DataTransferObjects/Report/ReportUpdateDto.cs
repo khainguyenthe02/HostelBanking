@@ -5,7 +5,6 @@
 		public int? Id { get; set; }
 		public string Detail { get; set; }
 		public int? ReportStatus { get; set; }
-		public int? CountReports { get; set; }
 		public int? PostId { get; set; }
 		public int? AccountId { get; set; }
 		public bool? DeleteFlag { get; set; }
