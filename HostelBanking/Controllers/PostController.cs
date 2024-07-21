@@ -37,7 +37,7 @@ namespace HostelBanking.Controllers
                 var count = result.Count();
                 if (count > 0)
                 {
-                    created.Id=(int)result.First().Id;
+                    created.Id=(int)result.Last().Id;
                     return Ok(created);
                 }
 

@@ -265,7 +265,7 @@ namespace HostelBanking.Controllers
 
 
         [HttpPut("update-user")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDto updateUserDto, CancellationToken cancellationToken)
 		{
 			// Kiểm tra user có trùng hay không
