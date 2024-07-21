@@ -81,14 +81,14 @@ namespace HostelBanking.Repositories
         public async Task<bool> Update(Favorite favorite)
         {
             var updateSql = " UPDATE favorite SET  ";
-            if (favorite.PostId != null)
-            {
-                updateSql += " post_id=@PostId, ";
-            }
-            if (favorite.AccountId != null)
-            {
-                updateSql += " account_id=@AccountId, ";
-            }
+            //if (favorite.PostId != null)
+            //{
+            //    updateSql += " post_id=@PostId, ";
+            //}
+            //if (favorite.AccountId != null)
+            //{
+            //    updateSql += " account_id=@AccountId, ";
+            //}
             if (favorite.DeleteFlag != null)
             {
                 updateSql += " delete_flag=@DeleteFlag ";
@@ -97,7 +97,8 @@ namespace HostelBanking.Repositories
             {
                 if (updateSql.EndsWith(", ")) updateSql = updateSql.Remove(updateSql.Length - 2);
             }
-            var whereSql = " WHERE id=@Id ";
+            //var whereSql = " WHERE id=@Id ";
+            var whereSql = " WHERE post_id=@PostId and account_id=@AccountId ";
 
             var updateHostelType =
             await _dbService.EditData(updateSql + whereSql, favorite);
