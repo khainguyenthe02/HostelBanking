@@ -19,7 +19,7 @@ namespace HostelBanking.Repositories
 		{
 			var result =
 			await _dbService.EditData(
-			  "INSERT INTO report (account_id, post_id, report_status, detail,, create_date, delete_flag) " +
+			  "INSERT INTO report (account_id, post_id, report_status, detail, create_date, delete_flag) " +
 				"VALUES (@AccountId, @PostId, @ReportStatus, @Detail, @CreateDate, @DeleteFlag)",
 			  report);
 			if (result > 0)
@@ -81,14 +81,14 @@ namespace HostelBanking.Repositories
 		public async Task<bool> Update(Report report)
 		{
 			var updateSql = " UPDATE report SET  ";
-			if (report.PostId != null)
-			{
-				updateSql += " post_id=@PostId, ";
-			}
-			if (report.AccountId != null)
-			{
-				updateSql += " account_id=@AccountId, ";
-			}
+			//if (report.PostId != null)
+			//{
+			//	updateSql += " post_id=@PostId, ";
+			//}
+			//if (report.AccountId != null)
+			//{
+			//	updateSql += " account_id=@AccountId, ";
+			//}
 			if (report.Detail != null)
 			{
 				updateSql += " detail=@Detail, ";
@@ -109,7 +109,7 @@ namespace HostelBanking.Repositories
 			{
 				if (updateSql.EndsWith(", ")) updateSql = updateSql.Remove(updateSql.Length - 2);
 			}
-			var whereSql = " WHERE id=@Id ";
+			var whereSql = " WHERE post_id=@PostId and account_id=@AccountId ";
 
 			var updateHostelType =
 			await _dbService.EditData(updateSql + whereSql, report);

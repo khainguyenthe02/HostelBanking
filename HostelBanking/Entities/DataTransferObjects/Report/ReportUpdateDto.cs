@@ -2,8 +2,7 @@
 {
 	public class ReportUpdateDto
 	{
-		public int? Id { get; set; }
-		public string Detail { get; set; }
+		//public int? Id { get; set; }
 		public int? ReportStatus { get; set; }
 		public int? PostId { get; set; }
 		public int? AccountId { get; set; }
