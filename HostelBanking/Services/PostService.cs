@@ -45,7 +45,7 @@ namespace HostelBanking.Services
             {
                 Id = id,
             };
-            var postInfo = await _repositoryManager.PostRepository.Search(search);
+            var postInfo = await _repositoryManager.PostRepository.SearchManager(search);
             if (postInfo != null)
             {
                 var postUpdate = postInfo[0];

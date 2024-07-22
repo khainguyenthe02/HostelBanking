@@ -2,8 +2,9 @@
 {
 	public enum AccountStatus
 	{
-		INACTIVE,
+		NOACTIVE,
 		ACTIVE,
+		INACTIVE,
 		BLOCK
 	}
 	public enum PaymentStatus
