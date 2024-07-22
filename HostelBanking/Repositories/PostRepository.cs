@@ -90,7 +90,7 @@ namespace HostelBanking.Repositories
             }
 			if (!string.IsNullOrEmpty(search.Title))
 			{
-				whereSql += $" AND title LIKE '%{search.Title}%'";
+				whereSql += $" AND title LIKE N'%{search.Title}%'";
 			}
 			if (search.Price != null)
             {
@@ -165,7 +165,7 @@ namespace HostelBanking.Repositories
             }
             if (!string.IsNullOrEmpty(search.Title))
             {
-                whereSql += $" AND title LIKE '%{search.Title}%'";
+                whereSql += $" AND title LIKE N'%{search.Title}%'";
             }
             if (search.Price != null)
             {

@@ -117,7 +117,8 @@ namespace HostelBanking.Repositories
             }
             if (!string.IsNullOrEmpty(searchbyadmin.FullName))
             {
-                whereSql += " AND full_name LIKE @FullName";
+               
+                whereSql += $" AND full_name LIKE N'%{searchbyadmin.FullName}%'";
             }
             if (searchbyadmin.RoleId != null)
             {
