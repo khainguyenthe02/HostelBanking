@@ -201,7 +201,8 @@ namespace HostelBanking.Repositories
             }
             if (!string.IsNullOrEmpty(search.OwnerHouse))
             {
-                whereSql += " AND owner_house LIKE @OwnerHouse";
+                whereSql += $" AND owner_house LIKE '%{search.OwnerHouse}'";
+               
             }
             if (search.ModifiedDate != null)
             {
