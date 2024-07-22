@@ -45,7 +45,7 @@ namespace HostelBanking.Services
             {
                 Id = id,
             };
-            var postInfo = await _repositoryManager.PostRepository.Search(search);
+            var postInfo = await _repositoryManager.PostRepository.SearchManager(search);
             if (postInfo != null)
             {
                 var postUpdate = postInfo[0];
@@ -214,11 +214,11 @@ namespace HostelBanking.Services
 			{
 				PriceRange.AGREEMENT => lstPosts.Where(post => post.Price == null).ToList(),
 				PriceRange.BELOW_ONE => lstPosts.Where(post =>  post.Price < 1000000).ToList(),
-				PriceRange.ONE_TO_TWO => lstPosts.Where(post => post.Price > 1000000 && post.Price < 2000000).ToList(),
-				PriceRange.TWO_TO_FOUR => lstPosts.Where(post => post.Price > 2000000 && post.Price < 4000000).ToList(),
-				PriceRange.FOUR_TO_SIX => lstPosts.Where(post => post.Price > 4000000 && post.Price < 6000000).ToList(),
-				PriceRange.SIX_TO_EIGHT => lstPosts.Where(post => post.Price > 6000000 && post.Price < 8000000).ToList(),
-				PriceRange.EIGHT_TO_TEN => lstPosts.Where(post => post.Price > 8000000 && post.Price < 10000000).ToList(),
+				PriceRange.ONE_TO_TWO => lstPosts.Where(post => post.Price >= 1000000 && post.Price < 2000000).ToList(),
+				PriceRange.TWO_TO_FOUR => lstPosts.Where(post => post.Price >= 2000000 && post.Price < 4000000).ToList(),
+				PriceRange.FOUR_TO_SIX => lstPosts.Where(post => post.Price >= 4000000 && post.Price < 6000000).ToList(),
+				PriceRange.SIX_TO_EIGHT => lstPosts.Where(post => post.Price >= 6000000 && post.Price < 8000000).ToList(),
+				PriceRange.EIGHT_TO_TEN => lstPosts.Where(post => post.Price >= 8000000 && post.Price < 10000000).ToList(),
 				PriceRange.ABOVE_TEN => lstPosts.Where(post => post.Price >= 10000000).ToList(),
 				_ => lstPosts,
 			};
