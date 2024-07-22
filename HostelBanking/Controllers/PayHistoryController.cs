@@ -71,19 +71,16 @@ namespace HostelBanking.Controllers
 		[HttpPost("search-pay-history-by-post-title")]
 		public async Task<IActionResult> SearchPostByTitle([FromBody] PayHistoryFeatPostTitleDto search , CancellationToken cancellationToken)
 		{
-			List<PayHistoryDto> result = new();
+            List<PayHistoryDto> result = new();
             List<PostDto> resultPost = new();
 
-			if (search.PostTitle != null)
+            if (search != null)
             {
-				var post = new PostSearchDto
-				{
-					Title = search.PostTitle,
-				};
-				resultPost = await _serviceManager.PostService.Search(post);
-			}
-            if(search.Type != null)
-            {
+                var post = new PostSearchDto
+                {
+                    Title = search.PostTitle,
+                };
+                resultPost = await _serviceManager.PostService.Search(post);
                 var payHistory = new PayHistorySearchDto
                 {
                     Type = search.Type,
@@ -91,11 +88,27 @@ namespace HostelBanking.Controllers
                 };
                 result = await _serviceManager.PayHistoryService.Search(payHistory);
             }
-			result = result.Where(ph => resultPost.Any(rp => rp.Id == ph.PostId)).ToList();
-			
-			if (result == null) return Ok(new List<PayHistoryDto>());
-			return Ok(result);
-		}
+            result = result.Where(ph => resultPost.Any(rp => rp.Id == ph.PostId)).ToList();
+            var count = result.Count();
+            if (count > 0)
+            {
+                var pageIndex = search.PageNumber;
+                int pageSize = (int)search.PageSize;
+                var numberPage = Math.Ceiling((float)(count / pageSize));
+                int start = (pageIndex - 1) * pageSize;
+                var post = result.Skip(start).Take(pageSize);
+                return Ok(new
+                {
+                    data = post,
+                    totalItem = result.Count,
+                    numberPage,
+                    search.PageNumber,
+                    search.PageSize
+                });
+            }
+            if (result == null) return Ok(new List<PayHistoryDto>());
+            return Ok(result);
+        }
 		[HttpPut("update")]
         //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateAsync([FromBody] PayHistoryUpdateDto payHistory, CancellationToken cancellationToken)
