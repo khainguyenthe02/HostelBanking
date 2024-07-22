@@ -69,19 +69,29 @@ namespace HostelBanking.Controllers
             return Ok(result);
         }
 		[HttpPost("search-pay-history-by-post-title")]
-		public async Task<IActionResult> SearchPostByTitle([FromBody] string search, CancellationToken cancellationToken)
+		public async Task<IActionResult> SearchPostByTitle([FromBody] PayHistoryFeatPostTitleDto search , CancellationToken cancellationToken)
 		{
 			List<PayHistoryDto> result = new();
-            var post = new PostSearchDto
+            List<PostDto> resultPost = new();
+
+			if (search.PostTitle != null)
             {
-                Title = search,
-            };
-            var resultPost = await _serviceManager.PostService.Search(post);
-            if (resultPost != null)
-            {
-				var allPayHistories = await _serviceManager.PayHistoryService.GetAll();
-				result = allPayHistories.Where(ph => resultPost.Any(rp => rp.Id == ph.PostId)).ToList();
+				var post = new PostSearchDto
+				{
+					Title = search.PostTitle,
+				};
+				resultPost = await _serviceManager.PostService.Search(post);
 			}
+            if(search.Type != null)
+            {
+                var payHistory = new PayHistorySearchDto
+                {
+                    Type = search.Type,
+                    AccountId = search.AccountId,
+                };
+                result = await _serviceManager.PayHistoryService.Search(payHistory);
+            }
+			result = result.Where(ph => resultPost.Any(rp => rp.Id == ph.PostId)).ToList();
 			
 			if (result == null) return Ok(new List<PayHistoryDto>());
 			return Ok(result);
