@@ -169,7 +169,7 @@ namespace HostelBanking.Controllers
 			}
 
 			// Kiểm tra trạng thái tài khoản
-			if (user.StatusAccount == (int)AccountStatus.INACTIVE)
+			if (user.StatusAccount == (int)AccountStatus.NOACTIVE)
 			{
 				user.StatusAccount = (int)AccountStatus.ACTIVE;
 				// Đăng nhập thành công
