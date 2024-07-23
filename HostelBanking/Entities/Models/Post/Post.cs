@@ -23,9 +23,5 @@ namespace HostelBanking.Entities.Models.Post
         public int HostelTypeId { get; set; }
         public int AccountId { get; set; }
 
-        public static implicit operator Post(PostDto v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -45,12 +45,14 @@ namespace HostelBanking.Services
             {
                 Id = id,
             };
-            var postInfo = await _repositoryManager.PostRepository.SearchManager(search);
+            var postInfo = (await _repositoryManager.PostRepository.SearchManager(search)).FirstOrDefault();
             if (postInfo != null)
             {
-                var postUpdate = postInfo[0];
+                var postUpdate = new Post();
                 postUpdate.Id = id;
                 postUpdate.DeleteFlag = true;
+                postUpdate.ModifiedDate= DateTime.Now;
+                postUpdate.HostelTypeId = postInfo.HostelTypeId;
                 var result = await _repositoryManager.PostRepository.Update(postUpdate);
                 return result;
             }

@@ -228,10 +228,6 @@ namespace HostelBanking.Repositories
             {
                 updateSql += " hostel_type_id=@HostelTypeId, ";
             }
-            if (post.AccountId != null)
-            {
-                updateSql += " account_id=@AccountId, ";
-            }
             if (post.Title != null)
             {
                 updateSql += " title=@Title, ";
