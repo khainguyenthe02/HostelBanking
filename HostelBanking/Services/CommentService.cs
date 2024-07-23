@@ -32,11 +32,13 @@ namespace HostelBanking.Services
             {
                 Id = id,
             };
-            var hostelTypeInfo = await _repositoryManager.CommentRepository.Search(search);
+            var hostelTypeInfo = (await _repositoryManager.CommentRepository.Search(search)).FirstOrDefault();
             if (hostelTypeInfo != null)
             {
                 var hostelTypeUpdate = new Comment();
                 hostelTypeUpdate.Id = id;
+				hostelTypeUpdate.AccountId = hostelTypeInfo.AccountId;
+				hostelTypeUpdate.PostId = hostelTypeInfo.PostId;
                 hostelTypeUpdate.DeleteFlag = true;
                 var result = await _repositoryManager.CommentRepository.Update(hostelTypeUpdate);
                 return true;

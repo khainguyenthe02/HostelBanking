@@ -97,10 +97,6 @@ namespace HostelBanking.Repositories
             {
                 updateSql += " content=@Content, ";
             }
-            if (comment.CreateDate != null)
-            {
-                updateSql += " create_date=@CreateDate, ";
-            }
             if (comment.DeleteFlag != null)
             {
                 updateSql += " delete_flag=@DeleteFlag ";

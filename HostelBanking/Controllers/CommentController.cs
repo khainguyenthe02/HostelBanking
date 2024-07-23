@@ -79,11 +79,12 @@ namespace HostelBanking.Controllers
             return BadRequest(MessageError.ErrorUpdate);
         }
         [HttpDelete]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteAsync(int id, CancellationToken cancellationToken)
         {
-            await _serviceManager.CommentService.Delete(id);
-            return NoContent();
+           var result =  await _serviceManager.CommentService.Delete(id);
+            if(result) return Ok("Xóa thành công");
+            return BadRequest("Xóa thất bại");
         }
     }
 }
