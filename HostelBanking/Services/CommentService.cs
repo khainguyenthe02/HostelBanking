@@ -22,6 +22,7 @@ namespace HostelBanking.Services
         public async Task<bool> Create(CommentCreateDto comment)
         {
             var hostelTypeInfo = comment.Adapt<Comment>();
+			hostelTypeInfo.CreateDate = DateTime.Now;
             var result = await _repositoryManager.CommentRepository.Create(hostelTypeInfo);
             return result;
         }

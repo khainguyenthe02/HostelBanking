@@ -21,6 +21,7 @@ namespace HostelBanking.Services
         public async Task<bool> Create(ReportCreateDto report)
         {
             var hostelTypeInfo = report.Adapt<Report>();
+            hostelTypeInfo.CreateDate = DateTime.Now;
             hostelTypeInfo.ReportStatus = (int) ReportStatus.PENDING;
             var result = await _repositoryManager.ReportRepository.Create(hostelTypeInfo);
             return result;

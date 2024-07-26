@@ -11,7 +11,7 @@ namespace HostelBanking.Entities.DataTransferObjects.Post
 		public string Ward { get; set; }
 		public string DescriptionPost { get; set; }
 		public List<string> Images { get; set; }
-		public DateTime? CreateDate { get; set; }
+		//public DateTime? CreateDate { get; set; }
 		public string PhoneNumber { get; set; }
         public string? Zalo { get; set; }
         public string Street { get; set; }

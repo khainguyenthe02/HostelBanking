@@ -26,7 +26,6 @@ namespace HostelBanking.Controllers
         //[Authorize]
         public async Task<IActionResult> CreateAsync([FromBody] PostCreateDto postDto, CancellationToken cancellationToken)
         {
-            postDto.CreateDate = DateTime.Now;
             postDto.ModifiedDate = DateTime.Now;
 			var created = await _serviceManager.PostService.Create(postDto);
 			if (created!= null)
