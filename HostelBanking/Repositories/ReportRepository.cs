@@ -72,8 +72,8 @@ namespace HostelBanking.Repositories
 			{
 				whereSql += " AND report_status = @ReportStatus";
 			}
-
-			var hostelTypeLst = await _dbService.GetAll<Report>(selectSql + whereSql, search);
+            whereSql += " Order by report_status ";
+            var hostelTypeLst = await _dbService.GetAll<Report>(selectSql + whereSql, search);
 
 			return hostelTypeLst;
 		}

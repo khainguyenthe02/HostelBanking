@@ -33,12 +33,13 @@ namespace HostelBanking.Services
             {
                 Id = id,
             };
-            var hostelTypeInfo = await _repositoryManager.ReportRepository.Search(search);
+            var hostelTypeInfo = await _repositoryManager.ReportRepository.GetById((int)id);
             if (hostelTypeInfo != null)
             {
                 var hostelTypeUpdate = new Report();
                 hostelTypeUpdate.Id = id;
                 hostelTypeUpdate.DeleteFlag = true;
+                hostelTypeUpdate.CreateDate = hostelTypeInfo.CreateDate;
                 var result = await _repositoryManager.ReportRepository.Update(hostelTypeUpdate);
                 return true;
             }
