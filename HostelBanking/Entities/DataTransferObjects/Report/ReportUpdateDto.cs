@@ -2,10 +2,8 @@
 {
 	public class ReportUpdateDto
 	{
-		//public int? Id { get; set; }
+		public int? Id { get; set; }
 		public int? ReportStatus { get; set; }
-		public int? PostId { get; set; }
-		public int? AccountId { get; set; }
 		public bool? DeleteFlag { get; set; }
 	}
 }
