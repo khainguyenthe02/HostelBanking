@@ -70,7 +70,7 @@ namespace HostelBanking.Controllers
 			return Ok(new List<ReportDto>());
 		}
 		[HttpPut("update")]
-		[Authorize(Roles = "Admin")]
+		//[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> UpdateAsync([FromBody] ReportUpdateDto report, CancellationToken cancellationToken)
 		{
 			var result = await _serviceManager.ReportService.Update(report);

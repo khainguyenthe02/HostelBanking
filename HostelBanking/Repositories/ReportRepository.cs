@@ -109,7 +109,7 @@ namespace HostelBanking.Repositories
 			{
 				if (updateSql.EndsWith(", ")) updateSql = updateSql.Remove(updateSql.Length - 2);
 			}
-			var whereSql = " WHERE post_id=@PostId and account_id=@AccountId ";
+			var whereSql = " WHERE id=@Id ";
 
 			var updateHostelType =
 			await _dbService.EditData(updateSql + whereSql, report);

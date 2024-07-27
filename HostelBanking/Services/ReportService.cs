@@ -68,9 +68,29 @@ namespace HostelBanking.Services
 
         public async Task<bool> Update(ReportUpdateDto report)
         {
-            var hostelTypeInfo = report.Adapt<Report>();
-            var result = await _repositoryManager.ReportRepository.Update(hostelTypeInfo);
-            return result;
+            var reportModel = await _repositoryManager.ReportRepository.GetById((int)report.Id);
+            if(reportModel != null)
+            {
+				var hostelTypeInfo = report.Adapt<Report>();
+                hostelTypeInfo.CreateDate = reportModel.CreateDate;
+				var result = await _repositoryManager.ReportRepository.Update(hostelTypeInfo);
+                if (result)
+                {
+                    var reportSearch = new ReportSearchDto
+                    {
+                        PostId = reportModel.PostId,
+                        ReportStatus = (int)ReportStatus.ACCEPTED
+                    };
+                    var reportAcceptedList = await _repositoryManager.ReportRepository.Search(reportSearch);
+                    if(reportAcceptedList.Count > 10)
+                    {
+                        var deletePost = await _repositoryManager.PostRepository.Delete(hostelTypeInfo.PostId);
+                        return deletePost;
+                    }
+                    return true;
+                }
+			}
+            return false;
         }
         public async Task<List<ReportDto>> FilterData(List<ReportDto> lst)
         {
