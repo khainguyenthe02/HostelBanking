@@ -113,7 +113,7 @@ namespace HostelBanking.Repositories
             }
             if (!string.IsNullOrEmpty(searchbyadmin.Email))
             {
-                whereSql += " AND email LIKE @Email";
+                whereSql += $" AND email LIKE  N'%{searchbyadmin.Email}%'";
             }
             if (!string.IsNullOrEmpty(searchbyadmin.FullName))
             {
