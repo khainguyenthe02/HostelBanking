@@ -132,6 +132,7 @@ namespace HostelBanking.Repositories
             {
                 whereSql += " and id IN @IdLst";
             }
+            whereSql += " Order by create_date desc ";
             var userList = await _dbService.GetAll<User>(selectSql + whereSql, searchbyadmin);
             return userList;
         }
