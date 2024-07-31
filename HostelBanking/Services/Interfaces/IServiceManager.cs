@@ -6,7 +6,6 @@
 		IRoleService RoleService { get; }
 		IUserService UserService { get; }
 		IPostService PostService { get; }
-		IPostImageService PostImageService { get; }
 		IPayHistoryService PayHistoryService { get; }
 		ICommentService CommentService { get; }
 		IFavoriteService FavoriteService { get; }

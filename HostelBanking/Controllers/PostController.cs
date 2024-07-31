@@ -2,7 +2,6 @@
 using HostelBanking.Entities.DataTransferObjects.Account;
 using HostelBanking.Entities.DataTransferObjects.HostelType;
 using HostelBanking.Entities.DataTransferObjects.Post;
-using HostelBanking.Entities.DataTransferObjects.PostImage;
 using HostelBanking.Entities.Models.Post;
 using HostelBanking.Services.Interfaces;
 using Mapster;
@@ -18,9 +17,11 @@ namespace HostelBanking.Controllers
     public class PostController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
-        public PostController(IServiceManager serviceManager)
+        private readonly IDiscountService _discountService;
+        public PostController(IServiceManager serviceManager, IDiscountService discountService)
         {
             this._serviceManager = serviceManager;
+            this._discountService = discountService;
         }
         [HttpPost("create")]
         //[Authorize]
@@ -62,6 +63,40 @@ namespace HostelBanking.Controllers
             postDto = await _serviceManager.PostService.GetAll();
             if (postDto == null) postDto = new();
             return Ok(postDto);
+        }
+        [HttpGet("get-price-after-discount")]
+        public async Task<IActionResult> GetPrice([FromBody] int userId)
+        {
+            var discount = await _discountService.LoadFromFile();
+            var user = await _serviceManager.UserService.GetById(userId);
+            if(user == null)
+            {
+                return BadRequest(MessageError.UserOrPostNotExist);
+            }
+            var postSearch = new PostSearchDto
+            {
+                AccountId = userId
+            };
+            var listPost = await _serviceManager.PostService.Search(postSearch);
+            if (listPost == null || listPost.Count == 0)
+            {
+                return Ok(discount.CreatedPrice);
+			}
+            else
+            {
+                int multiple = listPost.Count / discount.CountPostToSale;
+                if (multiple > 1)
+                {
+                    multiple = multiple * (discount.PercentSale/100);
+                    if(multiple > 50)
+                    {
+                        multiple = 50;
+                    }
+                }
+                discount.CreatedPrice = discount.CreatedPrice - discount.CreatedPrice;
+
+			}
+
         }
         [HttpPost("search")]
         public async Task<IActionResult> SearchDevice([FromBody] PostSearchDto search, CancellationToken cancellationToken)

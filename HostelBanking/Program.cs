@@ -103,6 +103,7 @@ builder.Services.AddAuthentication(opt =>
 
 builder.Services.AddSingleton<IServiceManager, ServiceManager>();
 builder.Services.AddSingleton<IRepositoryManager, RepositoryManager>();
+builder.Services.AddScoped<IDiscountService, DiscountService>();
 
 DefaultTypeMap.MatchNamesWithUnderscores = true;
 var app = builder.Build();

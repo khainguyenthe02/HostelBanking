@@ -2,11 +2,9 @@
 using HostelBanking.Entities.DataTransferObjects.Favorite;
 using HostelBanking.Entities.DataTransferObjects.PayHistory;
 using HostelBanking.Entities.DataTransferObjects.Post;
-using HostelBanking.Entities.DataTransferObjects.PostImage;
 using HostelBanking.Entities.Enum;
 using HostelBanking.Entities.Models.Favorite;
 using HostelBanking.Entities.Models.PayHistory;
-using HostelBanking.Entities.Models.PostImages;
 using HostelBanking.Repositories.Interfaces;
 using HostelBanking.Services.Interfaces;
 using Mapster;

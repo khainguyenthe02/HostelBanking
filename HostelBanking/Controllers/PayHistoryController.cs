@@ -3,7 +3,6 @@ using HostelBanking.Entities.Const;
 using HostelBanking.Entities.DataTransferObjects.HostelType;
 using HostelBanking.Entities.DataTransferObjects.PayHistory;
 using HostelBanking.Entities.DataTransferObjects.Post;
-using HostelBanking.Entities.DataTransferObjects.PostImage;
 using HostelBanking.Services;
 using HostelBanking.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;

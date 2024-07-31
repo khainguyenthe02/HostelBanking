@@ -1,12 +1,10 @@
 ﻿using HostelBanking.Entities.DataTransferObjects.Account;
 using HostelBanking.Entities.DataTransferObjects.HostelType;
 using HostelBanking.Entities.DataTransferObjects.Post;
-using HostelBanking.Entities.DataTransferObjects.PostImage;
 using HostelBanking.Entities.DataTransferObjects.Roles;
 using HostelBanking.Entities.Enum;
 using HostelBanking.Entities.Models.HostelType;
 using HostelBanking.Entities.Models.Post;
-using HostelBanking.Entities.Models.PostImages;
 using HostelBanking.Repositories.Interfaces;
 using HostelBanking.Services.Interfaces;
 using Mapster;

@@ -1,4 +1,4 @@
-﻿using HostelBanking.Entities.DataTransferObjects.PostImage;
+﻿
 
 namespace HostelBanking.Entities.DataTransferObjects.Post
 {

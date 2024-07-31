@@ -1,5 +1,4 @@
 ﻿using HostelBanking.Entities.DataTransferObjects.PayHistory;
-using HostelBanking.Entities.DataTransferObjects.PostImage;
 
 namespace HostelBanking.Services.Interfaces
 {

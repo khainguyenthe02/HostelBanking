@@ -9,7 +9,6 @@ namespace HostelBanking.Services
 		private readonly Lazy<IRoleService> lazyRoleService;
 		private readonly Lazy<IUserService> lazyUserService;
 		private readonly Lazy<IPostService> lazyPostService;
-		private readonly Lazy<IPostImageService> lazyPostImageService;
 		private readonly Lazy<IPayHistoryService> lazyPayHistoryService;
 		private readonly Lazy<ICommentService> lazyCommentService;
 		private readonly Lazy<IFavoriteService> lazyFavoriteService;
@@ -21,7 +20,6 @@ namespace HostelBanking.Services
 			lazyRoleService = new Lazy<IRoleService>(() => new RoleService(repositoryManager));
 			lazyUserService = new Lazy<IUserService>(() => new UserService(repositoryManager));
 			lazyPostService = new Lazy<IPostService>(() => new PostService(repositoryManager));
-			lazyPostImageService = new Lazy<IPostImageService>(() => new PostImageService(repositoryManager));
             lazyPayHistoryService = new Lazy<IPayHistoryService>(() => new PayHistoryService(repositoryManager));
 			lazyCommentService = new Lazy<ICommentService>(()  => new CommentService(repositoryManager));
             lazyFavoriteService = new Lazy<IFavoriteService>(()  => new FavoriteService(repositoryManager));
@@ -35,8 +33,6 @@ namespace HostelBanking.Services
 		public IUserService UserService => lazyUserService.Value;
 
 		public IPostService PostService => lazyPostService.Value;
-
-        public IPostImageService PostImageService => lazyPostImageService.Value;
 
         public IPayHistoryService PayHistoryService => lazyPayHistoryService.Value;
 

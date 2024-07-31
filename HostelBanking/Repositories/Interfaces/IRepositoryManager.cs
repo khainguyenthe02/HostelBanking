@@ -6,7 +6,6 @@
 		IRoleRepository RoleRepository { get; }
 		IUserRepository UserRepository { get; }
 		IPostRepository PostRepository { get; }
-		IPostImageRepository PostImageRepository { get; }
 		IPayHistoryRepository PayHistoryRepository { get; }
 		ICommentRepository CommentRepository { get; }
 		IFavoriteRepository FavoriteRepository { get; }
