@@ -64,7 +64,7 @@ namespace HostelBanking.Controllers
             if (postDto == null) postDto = new();
             return Ok(postDto);
         }
-        [HttpGet("get-price-after-discount")]
+        [HttpPost("get-price-after-discount")]
         public async Task<IActionResult> GetPrice([FromBody] int userId)
         {
             var discount = await _discountService.LoadFromFile();
@@ -84,17 +84,17 @@ namespace HostelBanking.Controllers
 			}
             else
             {
-                int multiple = listPost.Count / discount.CountPostToSale;
+                float multiple = listPost.Count / discount.CountPostToSale; // 50 : 10 = 5
                 if (multiple > 1)
                 {
-                    multiple = multiple * (discount.PercentSale/100);
-                    if(multiple > 50)
+                    multiple = multiple * (discount.PercentSale/100f);// 5*0.1 = 0.5
+                    if(multiple > 0.5)
                     {
-                        multiple = 50;
+                        multiple = 0.5f;
                     }
                 }
-                discount.CreatedPrice = discount.CreatedPrice - discount.CreatedPrice;
-
+                discount.CreatedPrice = discount.CreatedPrice - discount.CreatedPrice* multiple;// 15 = 30 - 30*0.5
+                return Ok(discount.CreatedPrice);
 			}
 
         }

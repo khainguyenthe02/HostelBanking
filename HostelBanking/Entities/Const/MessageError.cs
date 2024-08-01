@@ -29,6 +29,10 @@
 		public const string ReportLessThan24h = "Vui lòng đợi 24h tiếp theo để có thể báo cáo tiếp.";
 		public const string UserHasReportedYet = "Bạn đã báo cáo trước đó vào lúc: ";
 
+		public const string CreatedOrUpdatedPriceNotEqualsZero = "Giá đăng bài với giá cập nhật không thể bằng 0";
+		public const string CountPostToSaleNotEqualsZero = "Số lượng bài đăng giảm giá không thể bằng 0";
+		public const string PercentNotEqualsZero = "Phần trăm giảm giá không thể bằng 0";
 
-	}
+
+    }
 }

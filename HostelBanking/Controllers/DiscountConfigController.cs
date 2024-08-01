@@ -1,4 +1,5 @@
-﻿using HostelBanking.Entities.Models;
+﻿using HostelBanking.Entities.Const;
+using HostelBanking.Entities.Models;
 using HostelBanking.Services;
 using HostelBanking.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -28,6 +29,14 @@ namespace HostelBanking.Controllers
 			if (discount == null)
 			{
 				return BadRequest("Invalid discount data.");
+			}
+			if (discount.CreatedPrice <= 0 || discount.UpdatedPrice <= 0)
+			{
+				return BadRequest(MessageError.CreatedOrUpdatedPriceNotEqualsZero);
+			}
+			if (discount.CountPostToSale <= 0)
+			{
+				return BadRequest(MessageError.CountPostToSaleNotEqualsZero);
 			}
 			var result = await _discountService.SaveToFile(discount);
 			if(result) return Ok(discount);
