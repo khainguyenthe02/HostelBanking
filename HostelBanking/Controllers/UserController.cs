@@ -1,5 +1,7 @@
-﻿using HostelBanking.Entities;
+﻿using Firebase.Auth;
+using HostelBanking.Entities;
 using HostelBanking.Entities.Const;
+using HostelBanking.Entities.DataTransferObjects;
 using HostelBanking.Entities.DataTransferObjects.Account;
 using HostelBanking.Entities.DataTransferObjects.Post;
 using HostelBanking.Entities.Enum;
@@ -26,10 +28,12 @@ namespace HostelBanking.Controllers
 	{
 		private readonly IServiceManager _serviceManager;
         private readonly IConfiguration _config;
-        public UserController(IServiceManager serviceManager, IConfiguration configuration)
+        private readonly IDiscountService _discountService;
+        public UserController(IServiceManager serviceManager, IConfiguration configuration, IDiscountService discountService)
 		{
 			this._serviceManager = serviceManager;
             _config = configuration;
+            _discountService= discountService;
         }
 		private string currentEmail => HttpContext.Items["Email"]?.ToString();
 		[HttpGet("get-user-by-id/{Id}")]
@@ -147,12 +151,40 @@ namespace HostelBanking.Controllers
                 expires: DateTime.Now.AddHours(30),
                 signingCredentials: creds);
 
+
+            var priceForPayment = new PriceForPaymentDto();
+            var discount = await _discountService.LoadFromFile();
+            var postSearch = new PostSearchDto
+            {
+                AccountId = user.Id
+            };
+            var listPost = await _serviceManager.PostService.Search(postSearch);
+            if (listPost == null || listPost.Count == 0)
+            {
+                priceForPayment.CreatedPrice = discount.CreatedPrice;
+                priceForPayment.UpdatedPrice = discount.UpdatedPrice;
+            }
+            else
+            {
+                var multiple = Math.Floor((float)listPost.Count / discount.CountPostToSale); // 50 : 10 = 5
+
+                if (multiple >= 1)
+                {
+                    multiple = multiple * (discount.PercentSale / 100f);// 5*0.1 = 0.5
+                    if (multiple > 0.5)
+                    {
+                        multiple = 0.5f;
+                    }
+                }
+                priceForPayment.CreatedPrice = (float)(discount.CreatedPrice - discount.CreatedPrice * multiple);// 15 = 30 - 30*0.5
+                priceForPayment.UpdatedPrice = (float)(discount.UpdatedPrice - discount.UpdatedPrice * multiple);
+            }
             var resuil = new
             {
                 token = new JwtSecurityTokenHandler().WriteToken(token),
-				infor=user
+				infor=user,
+                priceForPayment
             };
-
             return Ok(resuil);
 		}
 		[HttpPost("active")]
