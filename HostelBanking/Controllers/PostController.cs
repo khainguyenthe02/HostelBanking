@@ -1,4 +1,5 @@
 ﻿using HostelBanking.Entities.Const;
+using HostelBanking.Entities.DataTransferObjects;
 using HostelBanking.Entities.DataTransferObjects.Account;
 using HostelBanking.Entities.DataTransferObjects.HostelType;
 using HostelBanking.Entities.DataTransferObjects.Post;
@@ -67,6 +68,7 @@ namespace HostelBanking.Controllers
         [HttpPost("get-price-after-discount")]
         public async Task<IActionResult> GetPrice([FromBody] int userId)
         {
+            var priceForPayment = new PriceForPaymentDto();
             var discount = await _discountService.LoadFromFile();
             var user = await _serviceManager.UserService.GetById(userId);
             if(user == null)
@@ -80,7 +82,9 @@ namespace HostelBanking.Controllers
             var listPost = await _serviceManager.PostService.Search(postSearch);
             if (listPost == null || listPost.Count == 0)
             {
-                return Ok(discount.CreatedPrice);
+                priceForPayment.CreatedPrice = discount.CreatedPrice;
+                priceForPayment.UpdatedPrice = discount.UpdatedPrice;
+                return Ok(priceForPayment);
 			}
             else
             {
@@ -93,8 +97,10 @@ namespace HostelBanking.Controllers
                         multiple = 0.5f;
                     }
                 }
-                discount.CreatedPrice = discount.CreatedPrice - discount.CreatedPrice* multiple;// 15 = 30 - 30*0.5
-                return Ok(discount.CreatedPrice);
+                priceForPayment.CreatedPrice = discount.CreatedPrice - discount.CreatedPrice* multiple;// 15 = 30 - 30*0.5
+                priceForPayment.UpdatedPrice = discount.UpdatedPrice - discount.UpdatedPrice* multiple;
+
+                return Ok(priceForPayment);
 			}
 
         }
