@@ -86,7 +86,20 @@ namespace HostelBanking.Services
                     if(reportAcceptedList.Count > 10)
                     {
                         var deletePost = await _repositoryManager.PostRepository.Delete(hostelTypeInfo.PostId);
-                        return deletePost;
+                        if (deletePost)
+                        {
+                            var userReports = await _repositoryManager.ReportRepository.Search(new ReportSearchDto
+                            {
+                                AccountId = reportModel.AccountId,
+                                ReportStatus = (int)ReportStatus.ACCEPTED
+                            });
+                            var distinctPostIds = userReports.Select(r => r.PostId).Distinct().ToList();
+                            if (distinctPostIds.Count > 10)
+                            {
+                                var deleteUser = await _repositoryManager.UserRepository.Delete(reportModel.AccountId);
+                                return deleteUser;
+                            }
+                        }
                     }
                     return true;
                 }
