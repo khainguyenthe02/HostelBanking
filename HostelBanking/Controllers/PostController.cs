@@ -134,7 +134,8 @@ namespace HostelBanking.Controllers
 
 
         [HttpPost("searchManager")]
-        public async Task<IActionResult> SearchManager([FromBody] PostSearchDto search, CancellationToken cancellationToken)
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> SearchManager([FromBody] PostSearchDto search, CancellationToken cancellationToken)
         {
             List<PostDto> result = new();
             result = await _serviceManager.PostService.SearchManager(search);

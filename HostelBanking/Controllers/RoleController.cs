@@ -2,6 +2,7 @@
 using HostelBanking.Entities.DataTransferObjects.HostelType;
 using HostelBanking.Entities.DataTransferObjects.Roles;
 using HostelBanking.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HostelBanking.Controllers
@@ -28,6 +29,7 @@ namespace HostelBanking.Controllers
 			return NoContent();
 		}
 		[HttpPost("create")]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> CreateAsync([FromBody] RoleCreateDto role, CancellationToken cancellationToken)
 		{
 			var result = await _serviceManager.RoleService.Create( role);
@@ -44,6 +46,7 @@ namespace HostelBanking.Controllers
 			return Ok(result);
 		}
 		[HttpPut("update")]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> UpdateAsync([FromBody] RoleUpdateDto role, CancellationToken cancellationToken)
 		{
 			var result = await _serviceManager.RoleService.Update(role);
@@ -53,6 +56,7 @@ namespace HostelBanking.Controllers
 			return BadRequest(MessageError.ErrorUpdate);
 		}
 		[HttpDelete]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> DeleteAsync(int id, CancellationToken cancellationToken)
 		{
 			await _serviceManager.RoleService.Delete(id);
