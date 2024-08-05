@@ -26,5 +26,17 @@ namespace HostelBanking.Utils
 				return ex.Message;
 			}
 		}
+		public static string PaymentStatusConvert(int status)
+		{
+			switch (status)
+			{
+				case 0:
+					return "Chờ thanh toán";
+				case 1:
+					return "Đã thanh toán";
+				default:
+					return "";
+			}
+		}
 	}
 }
