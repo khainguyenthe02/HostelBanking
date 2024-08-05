@@ -3,6 +3,8 @@ using HostelBanking.Entities.Const;
 using HostelBanking.Entities.DataTransferObjects.HostelType;
 using HostelBanking.Entities.DataTransferObjects.PayHistory;
 using HostelBanking.Entities.DataTransferObjects.Post;
+using HostelBanking.Excel;
+using HostelBanking.Excel.DtoExcel;
 using HostelBanking.Services;
 using HostelBanking.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -130,6 +132,33 @@ namespace HostelBanking.Controllers
             await _serviceManager.PayHistoryService.Delete(id);
             return Ok("Xóa thành công");
         }
-    }
+
+		[HttpPost("ExportListPayHistory")]
+		public async Task<IActionResult> ExportListArchives([FromBody] PayHistorySearchDto search, CancellationToken cancellationToken)
+		{
+			// lấy dữ liệu
+			var result = await _serviceManager.PayHistoryService.Search(search);
+			if (result == null) return Ok(new List<PayHistoryDto>());
+
+			// format dữ liệu export
+			var dataExport = new List<PayHistoryExcelDto>();
+			PayHistoryExcelDto exportPayHistory = new();
+			foreach (var item in result)
+			{
+				exportPayHistory = new PayHistoryExcelDto();
+                exportPayHistory.PayDate = item.PayDate;
+				exportPayHistory.PayCode = item.PayCode;
+				exportPayHistory.Type = Utils.Convert.PaymentStatusConvert(item.Type.Value);
+				exportPayHistory.Price = item.Price;
+                exportPayHistory.PostTitle= item.PostTitle;
+                exportPayHistory.AccountName= item.AccountName;
+				dataExport.Add(exportPayHistory);
+			}
+
+			// kết xuất dữ liệu
+			var exportService = new ExportService<PayHistoryExcelDto>();
+			return File(await exportService.ExportFile(dataExport, "PayHistoryExport.xlsx"), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "LichSuThanhToan.xlsx");
+		}
+	}
     
 }
