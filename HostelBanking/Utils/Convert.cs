@@ -31,9 +31,9 @@ namespace HostelBanking.Utils
 			switch (status)
 			{
 				case 0:
-					return "Chờ thanh toán";
+					return "Tạo mới";
 				case 1:
-					return "Đã thanh toán";
+					return "Cập nhật";
 				default:
 					return "";
 			}
