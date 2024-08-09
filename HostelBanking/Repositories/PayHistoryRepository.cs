@@ -84,6 +84,7 @@ namespace HostelBanking.Repositories
             {
                 whereSql += " AND type=@Type";
             }
+            whereSql += " Order by pay_date DESC";
             var postImageList = await _dbService.GetAll<PayHistory>(selectSql + whereSql, search);
             return postImageList;
         }

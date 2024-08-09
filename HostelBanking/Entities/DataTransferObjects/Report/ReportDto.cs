@@ -11,5 +11,6 @@
 		public int? AccountId { get; set; }
 		public string AccountName { get; set; }
 		public bool? DeleteFlag { get; set; }
-	}
+        public string EmailOfPost { get; set; }
+    }
 }

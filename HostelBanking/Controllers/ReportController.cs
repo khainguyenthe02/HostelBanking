@@ -1,4 +1,5 @@
 ﻿using HostelBanking.Entities.Const;
+using HostelBanking.Entities.DataTransferObjects.Account;
 using HostelBanking.Entities.DataTransferObjects.Comment;
 using HostelBanking.Entities.DataTransferObjects.Favorite;
 using HostelBanking.Entities.DataTransferObjects.PayHistory;
@@ -8,6 +9,7 @@ using HostelBanking.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NPOI.SS.Formula.Functions;
 
 namespace HostelBanking.Controllers
 {
@@ -65,15 +67,17 @@ namespace HostelBanking.Controllers
 		{
 			List<ReportDto> result = new();
 			List<PostDto> resultPost = new();
-
-			if (search != null)
+			List<UserDto> resultUser = new();
+			
+            if (search != null)
 			{
 				var post = new PostSearchDto
 				{
 					Title = search.PostTitle,
 				};
 				resultPost = await _serviceManager.PostService.Search(post);
-				var report = new ReportSearchDto
+				resultUser = await _serviceManager.UserService.GetAll();
+                var report = new ReportSearchDto
 				{
 					ReportStatus = search.ReportStatus,
 					AccountId = search.AccountId,
@@ -81,6 +85,14 @@ namespace HostelBanking.Controllers
 				result = await _serviceManager.ReportService.Search(report);
 			}
 			result = result.Where(ph => resultPost.Any(rp => rp.Id == ph.PostId)).ToList();
+			result.ForEach(rp =>
+			{
+				var accountID = resultPost.Where(post => post.Id == rp.PostId).FirstOrDefault().AccountId;
+
+                rp.EmailOfPost = resultUser.Where(acc => acc.Id == accountID).FirstOrDefault().Email;
+
+
+            });
 			var count = result.Count();
 			if (count > 0)
 			{

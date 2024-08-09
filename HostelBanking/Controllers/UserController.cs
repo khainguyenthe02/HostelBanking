@@ -189,7 +189,6 @@ namespace HostelBanking.Controllers
             return Ok(resuil);
 		}
 		[HttpPost("active")]
-		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> ActiveAccount([FromBody] EmailAcountDto emailAcount, CancellationToken cancellationToken)
 		{
 			emailAcount.Email = emailAcount.Email.Replace(" ", "");
